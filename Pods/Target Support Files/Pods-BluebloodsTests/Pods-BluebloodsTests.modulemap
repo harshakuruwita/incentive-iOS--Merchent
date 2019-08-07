@@ -1,0 +1,6 @@
+framework module Pods_BluebloodsTests {
+  umbrella header "Pods-BluebloodsTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
