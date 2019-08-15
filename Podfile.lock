@@ -1,5 +1,10 @@
 PODS:
+  - AAViewAnimator (1.1)
   - Alamofire (4.8.2)
+  - LinearProgressBar (1.0.1)
+  - MSAL (0.4.3):
+    - MSAL/app-lib (= 0.4.3)
+  - MSAL/app-lib (0.4.3)
   - NVActivityIndicatorView (4.7.0):
     - NVActivityIndicatorView/Presenter (= 4.7.0)
   - NVActivityIndicatorView/Presenter (4.7.0)
@@ -14,7 +19,10 @@ PODS:
   - SwiftyJSON (5.0.0)
 
 DEPENDENCIES:
+  - AAViewAnimator
   - Alamofire
+  - LinearProgressBar
+  - MSAL
   - NVActivityIndicatorView
   - RealmSwift
   - SDWebImage
@@ -22,7 +30,10 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - AAViewAnimator
     - Alamofire
+    - LinearProgressBar
+    - MSAL
     - NVActivityIndicatorView
     - Realm
     - RealmSwift
@@ -30,13 +41,16 @@ SPEC REPOS:
     - SwiftyJSON
 
 SPEC CHECKSUMS:
+  AAViewAnimator: 3cbd05e73ebda910231f966f8043ba96e674eee5
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  LinearProgressBar: f6a74dbabed229dbb1a7978089e2e4317a3a0ee0
+  MSAL: 6e578f727efafb19ba15d0c365a74761da330875
   NVActivityIndicatorView: b19ddab2576f805cbe0fb2306cba3476e09a1dea
   Realm: b30db41ff34fc858ffc25ba8d44a82c164e7ccd0
   RealmSwift: fe733e459d60dc7b6971d4cbee2eb4854097d12c
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: bfe78e252e4ab908d95f9b311f778b3dd545d450
+PODFILE CHECKSUM: fcd2b717038ec826665b2112e6021f6fd0f601da
 
 COCOAPODS: 1.6.0

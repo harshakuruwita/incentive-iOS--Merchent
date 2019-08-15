@@ -16,17 +16,24 @@ extension UIColor {
         struct NavigationBar {
         let status = UserDefaults.standard.bool(forKey: "status")
             
-            #if compiler(>=5)
+            #if (status)
             static let Fern = UIColor(red:0.00, green:0.28, blue:1.00, alpha:1.0)
             #endif
-            #if swift(>=4.2)
+            #if (status)
             static let Fernd = UIColor(red:0.00, green:0.28, blue:1.00, alpha:1.0)
             #endif
   
         }
         
-        struct Blue {
-           
+        struct textFieldBorder {
+            let status = UserDefaults.standard.bool(forKey: "status")
+            
+            #if (status)
+            static let lineColour = UIColor.red.cgColor
+            #endif
+            #if (status)
+            static let lineColour = UIColor.red.cgColor
+            #endif
         }
         
         struct Violet {

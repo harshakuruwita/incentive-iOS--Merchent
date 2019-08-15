@@ -11,6 +11,9 @@ target 'Bluebloods' do
   pod 'RealmSwift'
   pod 'NVActivityIndicatorView'
   pod 'SDWebImage'
+  pod 'AAViewAnimator'
+  pod 'MSAL'
+  pod 'LinearProgressBar'
 
   target 'BluebloodsTests' do
     inherit! :search_paths
