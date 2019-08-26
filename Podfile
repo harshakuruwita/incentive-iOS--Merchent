@@ -14,6 +14,7 @@ target 'Bluebloods' do
   pod 'AAViewAnimator'
   pod 'MSAL'
   pod 'LinearProgressBar'
+  pod 'NotificationBannerSwift'
 
   target 'BluebloodsTests' do
     inherit! :search_paths

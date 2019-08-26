@@ -23,6 +23,10 @@
 		3A45013322FD3ED600F07927 /* LeaderBordIndividualCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A45013222FD3ED600F07927 /* LeaderBordIndividualCell.swift */; };
 		3A45013622FD48B000F07927 /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A45013422FD48B000F07927 /* AuthenticationViewController.swift */; };
 		3A78683222F95C1200F0DC75 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A78683122F95C1200F0DC75 /* WebKit.framework */; };
+		3AB57BA92313A4AC00879421 /* UserLoginViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB57BA82313A4AC00879421 /* UserLoginViewControler.swift */; };
+		3AB57BAB2313B10B00879421 /* URLConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB57BAA2313B10B00879421 /* URLConstants.swift */; };
+		3AB57BAE2313B2BC00879421 /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB57BAD2313B2BC00879421 /* RestClient.swift */; };
+		3AB57BB02313B30A00879421 /* ResponseSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB57BAF2313B30A00879421 /* ResponseSwift.swift */; };
 		3AE806C222F414FE0000921F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE806C122F414FE0000921F /* AppDelegate.swift */; };
 		3AE806C422F414FE0000921F /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE806C322F414FE0000921F /* FirstViewController.swift */; };
 		3AE806C622F414FE0000921F /* InfoViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE806C522F414FE0000921F /* InfoViewControler.swift */; };
@@ -76,6 +80,10 @@
 		3A45013222FD3ED600F07927 /* LeaderBordIndividualCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderBordIndividualCell.swift; sourceTree = "<group>"; };
 		3A45013422FD48B000F07927 /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		3A78683122F95C1200F0DC75 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		3AB57BA82313A4AC00879421 /* UserLoginViewControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoginViewControler.swift; sourceTree = "<group>"; };
+		3AB57BAA2313B10B00879421 /* URLConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConstants.swift; sourceTree = "<group>"; };
+		3AB57BAD2313B2BC00879421 /* RestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
+		3AB57BAF2313B30A00879421 /* ResponseSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseSwift.swift; sourceTree = "<group>"; };
 		3AE806BE22F414FE0000921F /* Bluebloods.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bluebloods.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AE806C122F414FE0000921F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3AE806C322F414FE0000921F /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +156,7 @@
 		3A1B1E2422F83BB100A63F50 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3AB57BAC2313B29B00879421 /* Alamofire */,
 				3A1B1E2622F83F8200A63F50 /* ColourManager.swift */,
 			);
 			path = Model;
@@ -184,6 +193,15 @@
 				3A2C8BBA2302CC0D00CD5911 /* DashbordBonuASPCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		3AB57BAC2313B29B00879421 /* Alamofire */ = {
+			isa = PBXGroup;
+			children = (
+				3AB57BAD2313B2BC00879421 /* RestClient.swift */,
+				3AB57BAF2313B30A00879421 /* ResponseSwift.swift */,
+			);
+			path = Alamofire;
 			sourceTree = "<group>";
 		};
 		3AE806B522F414FE0000921F = {
@@ -251,6 +269,7 @@
 				3AE806F222F426FD0000921F /* Switcher.swift */,
 				3AE806F422F429020000921F /* AppNavigator.swift */,
 				3AE806F622F429C80000921F /* UserNavigator.swift */,
+				3AB57BAA2313B10B00879421 /* URLConstants.swift */,
 			);
 			path = Healper;
 			sourceTree = "<group>";
@@ -262,6 +281,7 @@
 				3AEE2B8922FA9EBC00C2E8D0 /* ContactUs.swift */,
 				3AEE2B8B22FAD2D500C2E8D0 /* LeaderBoard.swift */,
 				3A45013422FD48B000F07927 /* AuthenticationViewController.swift */,
+				3AB57BA82313A4AC00879421 /* UserLoginViewControler.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -429,10 +449,13 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/LinearProgressBar/LinearProgressBar.framework",
 				"${BUILT_PRODUCTS_DIR}/MSAL/MSAL.framework",
+				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
+				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -443,10 +466,13 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LinearProgressBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MSAL.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -531,14 +557,18 @@
 				3A2C8BA8230289EC00CD5911 /* DashbordPointsCell.swift in Sources */,
 				3AE806C622F414FE0000921F /* InfoViewControler.swift in Sources */,
 				3AE806F522F429020000921F /* AppNavigator.swift in Sources */,
+				3AB57BB02313B30A00879421 /* ResponseSwift.swift in Sources */,
 				3AE806C222F414FE0000921F /* AppDelegate.swift in Sources */,
 				3A45013622FD48B000F07927 /* AuthenticationViewController.swift in Sources */,
 				3AEE2B8C22FAD2D500C2E8D0 /* LeaderBoard.swift in Sources */,
 				3AE806F322F426FD0000921F /* Switcher.swift in Sources */,
 				3AE806C422F414FE0000921F /* FirstViewController.swift in Sources */,
+				3AB57BA92313A4AC00879421 /* UserLoginViewControler.swift in Sources */,
 				3AEE2B8A22FA9EBC00C2E8D0 /* ContactUs.swift in Sources */,
+				3AB57BAE2313B2BC00879421 /* RestClient.swift in Sources */,
 				3A45013322FD3ED600F07927 /* LeaderBordIndividualCell.swift in Sources */,
 				3A2C8BBB2302CC0D00CD5911 /* DashbordBonuASPCell.swift in Sources */,
+				3AB57BAB2313B10B00879421 /* URLConstants.swift in Sources */,
 				3A1B1E2722F83F8200A63F50 /* ColourManager.swift in Sources */,
 				3A45013122FD350900F07927 /* LeaderBordStoreCell.swift in Sources */,
 			);

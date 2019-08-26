@@ -11,19 +11,26 @@ import MSAL
 
 class AuthenticationViewController: UIViewController {
 
+    @IBOutlet weak var gradientView: UIView!
+    @IBOutlet weak var storeLogo: UIImageView!
+    
+    var gradientLayer: CAGradientLayer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let kClientID = "916d32d8-3071-40f2-a75d-762ac7342051"        
-        // Additional variables for Auth and Graph API
-        let kGraphURI = "https://graph.microsoft.com/v1.0/me/"
-        let kScopes: [String] = ["https://graph.microsoft.com/user.read"]
-        let kAuthority = "https://login.microsoftonline.com/common"
-        var accessToken = String()
-        var applicationContext : MSALPublicClientApplication?
+        storeLogo.layer.cornerRadius = storeLogo.frame.size.width/2
+        storeLogo.clipsToBounds = true
+        createGradientLayer()
     }
 
 
+ 
+    func createGradientLayer() {
+        gradientLayer = CAGradientLayer()
+        gradientLayer.frame = self.view.bounds
+        gradientLayer.colors = [UIColor(red: 28/255, green: 169/255, blue: 226/255, alpha: 1).cgColor, UIColor(red: 227/255, green: 183/255, blue: 195/255, alpha: 1).cgColor]
+        self.gradientView.layer.addSublayer(gradientLayer)
+    }
     /*
     // MARK: - Navigation
 

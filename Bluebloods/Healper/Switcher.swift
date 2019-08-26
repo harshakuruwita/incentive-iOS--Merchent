@@ -18,7 +18,7 @@ class Switcher {
         print(status)
         
         
-        if(status == false){
+        if(status == true){
             rootVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AppNavigator") as! AppNavigator
         }else{
             rootVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "UserNavigator") as! UserNavigator

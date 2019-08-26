@@ -2,9 +2,13 @@ PODS:
   - AAViewAnimator (1.1)
   - Alamofire (4.8.2)
   - LinearProgressBar (1.0.1)
+  - MarqueeLabel (4.0.0)
   - MSAL (0.4.3):
     - MSAL/app-lib (= 0.4.3)
   - MSAL/app-lib (0.4.3)
+  - NotificationBannerSwift (2.3.0):
+    - MarqueeLabel (~> 4.0.0)
+    - SnapKit (~> 5.0.0)
   - NVActivityIndicatorView (4.7.0):
     - NVActivityIndicatorView/Presenter (= 4.7.0)
   - NVActivityIndicatorView/Presenter (4.7.0)
@@ -16,6 +20,7 @@ PODS:
   - SDWebImage (5.0.6):
     - SDWebImage/Core (= 5.0.6)
   - SDWebImage/Core (5.0.6)
+  - SnapKit (5.0.0)
   - SwiftyJSON (5.0.0)
 
 DEPENDENCIES:
@@ -23,6 +28,7 @@ DEPENDENCIES:
   - Alamofire
   - LinearProgressBar
   - MSAL
+  - NotificationBannerSwift
   - NVActivityIndicatorView
   - RealmSwift
   - SDWebImage
@@ -33,24 +39,30 @@ SPEC REPOS:
     - AAViewAnimator
     - Alamofire
     - LinearProgressBar
+    - MarqueeLabel
     - MSAL
+    - NotificationBannerSwift
     - NVActivityIndicatorView
     - Realm
     - RealmSwift
     - SDWebImage
+    - SnapKit
     - SwiftyJSON
 
 SPEC CHECKSUMS:
   AAViewAnimator: 3cbd05e73ebda910231f966f8043ba96e674eee5
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   LinearProgressBar: f6a74dbabed229dbb1a7978089e2e4317a3a0ee0
+  MarqueeLabel: b55b26e690b6ad41faedd95cbf5eae6f1d1735b4
   MSAL: 6e578f727efafb19ba15d0c365a74761da330875
+  NotificationBannerSwift: fdc44b934be7a8175f7a7170a75a11c672990e70
   NVActivityIndicatorView: b19ddab2576f805cbe0fb2306cba3476e09a1dea
   Realm: b30db41ff34fc858ffc25ba8d44a82c164e7ccd0
   RealmSwift: fe733e459d60dc7b6971d4cbee2eb4854097d12c
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
+  SnapKit: fd22d10eb9aff484d79a8724eab922c1ddf89bcf
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: fcd2b717038ec826665b2112e6021f6fd0f601da
+PODFILE CHECKSUM: e94100bffe1a3d737b1ea2801fbe194cbdfb788e
 
 COCOAPODS: 1.6.0
