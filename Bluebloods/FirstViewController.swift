@@ -10,12 +10,15 @@ import UIKit
 
 class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var filterbarLogo: UIImageView!
-    
+    @IBOutlet weak var navigationBarUiView: UIView!
+    @IBOutlet weak var filterbarUIView: UIView!
+    var gradientLayer: CAGradientLayer!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         filterbarLogo.layer.cornerRadius = filterbarLogo.frame.height / 2
         filterbarLogo.clipsToBounds = true
+        colourSwitcher()
     }
 
     
@@ -49,7 +52,16 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    ///////////
+    func colourSwitcher() {
+        navigationBarUiView.layer.backgroundColor = UIColor().colour1()
+        
+        gradientLayer = CAGradientLayer()
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.0)
+        gradientLayer.frame = self.view.bounds
+        gradientLayer.colors = [UIColor().colour2(), UIColor().colour1()]
+        self.filterbarUIView.layer.addSublayer(gradientLayer)
+    }
 
 }
 

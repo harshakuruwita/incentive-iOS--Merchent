@@ -296,6 +296,11 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4ri-fp-68L">
                                 <rect key="frame" x="0.0" y="95" width="414" height="100"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uBl-1s-Xab">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="45Z4It5g" translatesAutoresizingMaskIntoConstraints="NO" id="ou9-Qv-rHb">
                                         <rect key="frame" x="8" y="8" width="48" height="49"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -691,6 +696,8 @@
                     <tabBarItem key="tabBarItem" title="Dashboard" image="first" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="filterbarLogo" destination="ou9-Qv-rHb" id="3Dq-vk-00g"/>
+                        <outlet property="filterbarUIView" destination="uBl-1s-Xab" id="BTE-hH-ec2"/>
+                        <outlet property="navigationBarUiView" destination="eqy-kg-1Kq" id="V8u-7K-trM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -924,6 +931,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="messageTextFild" destination="FXb-CW-kdy" id="U0f-kc-JTr"/>
+                        <outlet property="navigationBarUiView" destination="PAs-w2-aOS" id="2iq-ih-fJy"/>
                         <outlet property="senderEmail" destination="pvB-9i-Gwc" id="7Gf-MJ-Zi4"/>
                     </connections>
                 </viewController>

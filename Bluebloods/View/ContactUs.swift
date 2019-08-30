@@ -12,6 +12,7 @@ class ContactUs: UIViewController {
 
     @IBOutlet weak var senderEmail: UITextField!
     @IBOutlet weak var messageTextFild: UITextView!
+    @IBOutlet weak var navigationBarUiView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +28,7 @@ class ContactUs: UIViewController {
         messageTextFild.layer.cornerRadius = 18.0
         messageTextFild.layer.borderWidth = 0.7
         messageTextFild.layer.borderColor = UIColor.gray.cgColor
-        
+        colourSwitcher()
        
     }
     
@@ -41,5 +42,11 @@ class ContactUs: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func colourSwitcher() {
+        navigationBarUiView.layer.backgroundColor = UIColor().colour1()
+        
+
+    }
 
 }
