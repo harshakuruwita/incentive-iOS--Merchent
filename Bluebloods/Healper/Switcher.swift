@@ -12,13 +12,13 @@ class Switcher {
     
     static func updateRootVC(){
         
-        let status = UserDefaults.standard.bool(forKey: "status")
+        let isLogin = UserDefaults.standard.bool(forKey: "isLogin")
         var rootVC : UIViewController?
         
-        print(status)
+    
         
         
-        if(status == true){
+        if(isLogin){
             rootVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AppNavigator") as! AppNavigator
         }else{
             rootVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "UserNavigator") as! UserNavigator

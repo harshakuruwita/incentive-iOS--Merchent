@@ -14,6 +14,11 @@ class InfoViewControler: UIViewController , WKNavigationDelegate, WKUIDelegate {
     @IBOutlet weak var infoWebView: WKWebView!
     @IBOutlet weak var filterBarLogo: UIImageView!
     
+    @IBOutlet weak var navigationBarUiView: UIView!
+    
+    @IBOutlet weak var gradianentView: UIView!
+    var gradientLayer: CAGradientLayer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,6 +30,7 @@ class InfoViewControler: UIViewController , WKNavigationDelegate, WKUIDelegate {
         infoWebView.isUserInteractionEnabled = true
         infoWebView.navigationDelegate = self
         infoWebView.load(URLRequest(url: URL(string: tncURL)!))
+        colourSwitcher()
     
     }
 
@@ -34,6 +40,18 @@ class InfoViewControler: UIViewController , WKNavigationDelegate, WKUIDelegate {
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
        print("2")
+    }
+    
+    
+    func colourSwitcher() {
+        navigationBarUiView.layer.backgroundColor = UIColor().colour1()
+        
+        gradientLayer = CAGradientLayer()
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.0)
+        gradientLayer.frame = self.view.bounds
+        gradientLayer.colors = [UIColor().colour2(), UIColor().colour1()]
+        self.gradianentView.layer.addSublayer(gradientLayer)
     }
 }
 

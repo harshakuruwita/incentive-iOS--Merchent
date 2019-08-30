@@ -12,16 +12,10 @@ import SwiftyJSON
 
 class RestClient: NSObject {
     
-    class func makeGetRequst(url:String,  delegate:AnyObject, requestFinished:Selector, requestFailed:Selector, tag:Int){
+    class func makeGetRequst(url:String, access_token:String,  delegate:AnyObject, requestFinished:Selector, requestFailed:Selector, tag:Int){
         
-        
-        var awsToken = ""
-       
-                
-        
-                
                 let Auth_header: HTTPHeaders = [
-                    "Authorization": awsToken,
+                    "Authorization": access_token,
                     "Content-Type": "application/x-www-form-urlencoded"
                 ]
                 
@@ -53,10 +47,9 @@ class RestClient: NSObject {
     
     class func makePutRequst(url:String, filterDictionary:Parameters,  delegate:AnyObject, requestFinished:Selector, requestFailed:Selector, tag:Int){
         
-        var awsToken = ""
        
                 let Auth_header: HTTPHeaders = [
-                    "Authorization": awsToken,
+                   
                     "Content-Type": "application/x-www-form-urlencoded"
                     
                 ]

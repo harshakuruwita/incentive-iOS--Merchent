@@ -1,0 +1,41 @@
+{
+  "response" : {
+    "code" : 200,
+    "data" : {
+      "org" : {
+        "AgentTheme" : "{\"MetricXColour1\":\"#c0baba\",\"MetricXColour2\":\"#232323\",\"LeaderBoard1stPlace\":\"#ac8f8f\",\"LeaderBoardMyPosition\":\"#666679\",\"LeaderBoardOtherPosition\":\"#8a996c\",\"background\":[]}",
+        "CompanyAddress" : "1\/65, Kalalgoda",
+        "ContactPersonName" : "MALINDA",
+        "LoginEmail" : "mc2@mailinator.com",
+        "CompanyDomain" : "mc2",
+        "CompanyName" : "VC merchant",
+        "City" : "Pannipitiya",
+        "OrganizationTheme" : "{\"color1\":\"#cdced8\",\"color2\":\"#eaedee\",\"logoLarge\":[{\"url\":\"https:\/\/titanitbackup.blob.core.windows.net\/vc-incentive\/files\/1566977835365.jpeg\",\"path\":\"https:\/\/titanitbackup.blob.core.windows.net\/vc-incentive\/files\/1566977835365.jpeg\",\"uid\":1566977835365}],\"logoSmall\":[{\"url\":\"https:\/\/titanitbackup.blob.core.windows.net\/vc-incentive\/files\/1566977842230.jpeg\",\"path\":\"https:\/\/titanitbackup.blob.core.windows.net\/vc-incentive\/files\/1566977842230.jpeg\",\"uid\":1566977842230}]}",
+        "SalesConfigCSV" : null,
+        "Country" : "Sri Lanka",
+        "id" : 38,
+        "ContactEmail" : "mc2@mailinator.com",
+        "CompanyStatus" : "ACTIVE",
+        "ContactNumber" : "775760619"
+      },
+      "user" : {
+        "mobileNo" : "12345988755",
+        "storeId" : 6,
+        "currentStatus" : "active",
+        "salesId" : null,
+        "organizationId" : 38,
+        "userId" : 22,
+        "userType" : "ORGANIZATION",
+        "firstName" : "sdsdszzzzzzzzzzzzzzzzzzzz",
+        "lastName" : "fdfdf",
+        "userRole" : "ADMIN",
+        "azureId" : "31c72d51-3ab6-4608-9f91-ea0c560c499a",
+        "email" : "mc2@mailinator.com",
+        "updateAt" : "2019-08-26T08:24:12.140Z",
+        "token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJpc3MiOiJodHRwczovL3BjaW5jZW50aXZlcy5iMmNsb2dpbi5jb20vNmE2YWNhOWMtNGFmNS00ODgzLTkxYTgtMTk2ZWE3NzViY2IzL3YyLjAvIiwiZXhwIjoxNTY3MDcyNzUwLCJuYmYiOjE1NjY5ODYzNTAsImF1ZCI6IjIwNTcwYjUwLTA3ZWQtNDFiYS1iMDcyLWQ1Yjk0OTA1MjgzZSIsImlkcCI6IkxvY2FsQWNjb3VudCIsIm9pZCI6IjMxYzcyZDUxLTNhYjYtNDYwOC05ZjkxLWVhMGM1NjBjNDk5YSIsInN1YiI6IjMxYzcyZDUxLTNhYjYtNDYwOC05ZjkxLWVhMGM1NjBjNDk5YSIsIm5hbWUiOiJNQUxJTkRBIiwibmV3VXNlciI6ZmFsc2UsImVtYWlscyI6WyJtYzJAbWFpbGluYXRvci5jb20iXSwidGZwIjoiQjJDXzFfUk9QQ19BdXRoX3ZjIiwic2NwIjoidXNlcl9pbXBlcnNvbmF0aW9uIiwiYXpwIjoiMjA1NzBiNTAtMDdlZC00MWJhLWIwNzItZDViOTQ5MDUyODNlIiwidmVyIjoiMS4wIiwiaWF0IjoxNTY2OTg2MzUwfQ.bAxIDAnfJrsHpz4-hLYe0Kuacmd3gJ30R-Sp08Qnd0L0Y7CnShfnc9cF-OsJmtzNZhaeRpx13gJxWVmJIFwAFfcqSJZQONtRCh8INtV-6Io_yBMndyvmkm8MEverze3RGFJOToE6xnmIOzhx0DWjnB8If1dxU5BsK58P1sglyAWptI48yHEWK7dXbgDirb6WYE9cXQHRm-zcFdu4syNPcX0n-Ptjn0HOqfoQEuLj8QDDfVISuQxK2K2IzeSYmQAxu1PyaWhucF6cnQwCLYOKnER1qfF8lvQHOXItfNZO6r8NWbwpBX5LxlHks9VBaTbtIKPj4ST7A9_WKU2uuNXlEA",
+        "createdAt" : "2019-08-26T08:24:12.140Z",
+        "regionId" : 1
+      }
+    }
+  }
+}

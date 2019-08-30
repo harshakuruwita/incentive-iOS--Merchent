@@ -19,10 +19,13 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     @IBOutlet weak var storeButton: UIButton!
     @IBOutlet weak var individualButton: UIButton!
     
-
-    let animals: [String] = ["Horse", "Cow", "Camel", "Sheep", "Goat"]
-    let storeCellReuseIdentifier = "LeaderBordStoreCell"
+    @IBOutlet weak var navigationBarUiView: UIView!
+    @IBOutlet weak var filterbarUIView: UIView!
     
+    @IBOutlet weak var gradianentView: UIView!
+    
+    let storeCellReuseIdentifier = "LeaderBordStoreCell"
+    var gradientLayer: CAGradientLayer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +37,10 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         storeButton.backgroundColor = .clear
         storeButton.layer.cornerRadius = 18
         storeButton.layer.borderWidth = 1.5
-        storeButton.layer.borderColor = UIColor(red: 28/255, green: 169/255, blue: 226/255, alpha: 1).cgColor
+
+        
+        storeButton.layer.borderColor = UIColor().colour1()
+        colourSwitcher()
         
     }
     ///////////
@@ -82,20 +88,19 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         individualButton.layer.borderColor = UIColor(red: 28/255, green: 169/255, blue: 226/255, alpha: 1).cgColor
          self.individualUiView.isHidden = false
         self.storeUiView.isHidden = true
-      
-        
-        
-       
-        
-    }
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        
     }
-    */
+ 
+    func colourSwitcher() {
+        navigationBarUiView.layer.backgroundColor = UIColor().colour1()
+        
+        gradientLayer = CAGradientLayer()
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.0)
+        gradientLayer.frame = self.view.bounds
+        gradientLayer.colors = [UIColor().colour2(), UIColor().colour1()]
+        self.gradianentView.layer.addSublayer(gradientLayer)
+    }
 
 }
