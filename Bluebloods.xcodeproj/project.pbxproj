@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		08BAEFBAE8E0FAC492DCB947 /* Pods_BluebloodsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E5CEC2C6FBC5C0FBD61F8FC /* Pods_BluebloodsUITests.framework */; };
 		3A1B1E2722F83F8200A63F50 /* ColourManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B1E2622F83F8200A63F50 /* ColourManager.swift */; };
+		3A2B8A132320D2F300ED78AA /* UserRegistation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B8A122320D2F300ED78AA /* UserRegistation.swift */; };
+		3A2B8A152320FC5400ED78AA /* BorderdTextFild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B8A142320FC5400ED78AA /* BorderdTextFild.swift */; };
+		3A2B8A1723211AE400ED78AA /* UserRegistationCreateUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B8A1623211AE400ED78AA /* UserRegistationCreateUser.swift */; };
 		3A2C8BA8230289EC00CD5911 /* DashbordPointsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2C8BA7230289EC00CD5911 /* DashbordPointsCell.swift */; };
 		3A2C8BB22302C6BD00CD5911 /* CircularStd-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3A2C8BAB2302C6A600CD5911 /* CircularStd-Black.otf */; };
 		3A2C8BB32302C74800CD5911 /* CircularStd-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3A2C8BAA2302C6A600CD5911 /* CircularStd-BlackItalic.otf */; };
@@ -72,6 +75,9 @@
 		1185BA0613B5F397E2440457 /* Pods-BluebloodsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BluebloodsUITests.release.xcconfig"; path = "Target Support Files/Pods-BluebloodsUITests/Pods-BluebloodsUITests.release.xcconfig"; sourceTree = "<group>"; };
 		38F478B61721D2F58D416BA6 /* Pods-BluebloodsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BluebloodsTests.release.xcconfig"; path = "Target Support Files/Pods-BluebloodsTests/Pods-BluebloodsTests.release.xcconfig"; sourceTree = "<group>"; };
 		3A1B1E2622F83F8200A63F50 /* ColourManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourManager.swift; sourceTree = "<group>"; };
+		3A2B8A122320D2F300ED78AA /* UserRegistation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegistation.swift; sourceTree = "<group>"; };
+		3A2B8A142320FC5400ED78AA /* BorderdTextFild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderdTextFild.swift; sourceTree = "<group>"; };
+		3A2B8A1623211AE400ED78AA /* UserRegistationCreateUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegistationCreateUser.swift; sourceTree = "<group>"; };
 		3A2C8BA7230289EC00CD5911 /* DashbordPointsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashbordPointsCell.swift; sourceTree = "<group>"; };
 		3A2C8BAA2302C6A600CD5911 /* CircularStd-BlackItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-BlackItalic.otf"; sourceTree = "<group>"; };
 		3A2C8BAB2302C6A600CD5911 /* CircularStd-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-Black.otf"; sourceTree = "<group>"; };
@@ -304,6 +310,7 @@
 				3AE806F622F429C80000921F /* UserNavigator.swift */,
 				3AB57BAA2313B10B00879421 /* URLConstants.swift */,
 				3ACB35072316489700A2C4D0 /* CurvedView.swift */,
+				3A2B8A142320FC5400ED78AA /* BorderdTextFild.swift */,
 			);
 			path = Healper;
 			sourceTree = "<group>";
@@ -316,6 +323,8 @@
 				3AEE2B8B22FAD2D500C2E8D0 /* LeaderBoard.swift */,
 				3A45013422FD48B000F07927 /* AuthenticationViewController.swift */,
 				3AB57BA82313A4AC00879421 /* UserLoginViewControler.swift */,
+				3A2B8A122320D2F300ED78AA /* UserRegistation.swift */,
+				3A2B8A1623211AE400ED78AA /* UserRegistationCreateUser.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -588,6 +597,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A2B8A132320D2F300ED78AA /* UserRegistation.swift in Sources */,
 				3AC2588623179B99005165D6 /* Extension.swift in Sources */,
 				3ACB35082316489700A2C4D0 /* CurvedView.swift in Sources */,
 				3AE806F722F429C80000921F /* UserNavigator.swift in Sources */,
@@ -596,6 +606,7 @@
 				3AE7331A2316785E0017217D /* Organization.swift in Sources */,
 				3AE806F522F429020000921F /* AppNavigator.swift in Sources */,
 				3AB57BB02313B30A00879421 /* ResponseSwift.swift in Sources */,
+				3A2B8A152320FC5400ED78AA /* BorderdTextFild.swift in Sources */,
 				3AE806C222F414FE0000921F /* AppDelegate.swift in Sources */,
 				3A45013622FD48B000F07927 /* AuthenticationViewController.swift in Sources */,
 				3AEE2B8C22FAD2D500C2E8D0 /* LeaderBoard.swift in Sources */,
@@ -605,6 +616,7 @@
 				3AB57BA92313A4AC00879421 /* UserLoginViewControler.swift in Sources */,
 				3AEE2B8A22FA9EBC00C2E8D0 /* ContactUs.swift in Sources */,
 				3AB57BAE2313B2BC00879421 /* RestClient.swift in Sources */,
+				3A2B8A1723211AE400ED78AA /* UserRegistationCreateUser.swift in Sources */,
 				3A45013322FD3ED600F07927 /* LeaderBordIndividualCell.swift in Sources */,
 				3A2C8BBB2302CC0D00CD5911 /* DashbordBonuASPCell.swift in Sources */,
 				3AB57BAB2313B10B00879421 /* URLConstants.swift in Sources */,
