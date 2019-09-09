@@ -29,7 +29,7 @@ class BorderdTextFild: UITextField {
        layer.cornerRadius = 22.0
        layer.masksToBounds = true
        layer.borderColor = UIColor.white.cgColor
-        layer.borderWidth = 1.5
+    layer.borderWidth = 1.5
         
        
     }

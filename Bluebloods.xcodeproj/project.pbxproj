@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		08BAEFBAE8E0FAC492DCB947 /* Pods_BluebloodsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E5CEC2C6FBC5C0FBD61F8FC /* Pods_BluebloodsUITests.framework */; };
+		3A12A8AB2326154400B0EA61 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A12A8AA2326154400B0EA61 /* AppConstants.swift */; };
 		3A1B1E2722F83F8200A63F50 /* ColourManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B1E2622F83F8200A63F50 /* ColourManager.swift */; };
 		3A2B8A132320D2F300ED78AA /* UserRegistation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B8A122320D2F300ED78AA /* UserRegistation.swift */; };
 		3A2B8A152320FC5400ED78AA /* BorderdTextFild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B8A142320FC5400ED78AA /* BorderdTextFild.swift */; };
@@ -74,6 +75,7 @@
 		058BEF29D77A0161593D8BBE /* Pods-Bluebloods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bluebloods.debug.xcconfig"; path = "Target Support Files/Pods-Bluebloods/Pods-Bluebloods.debug.xcconfig"; sourceTree = "<group>"; };
 		1185BA0613B5F397E2440457 /* Pods-BluebloodsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BluebloodsUITests.release.xcconfig"; path = "Target Support Files/Pods-BluebloodsUITests/Pods-BluebloodsUITests.release.xcconfig"; sourceTree = "<group>"; };
 		38F478B61721D2F58D416BA6 /* Pods-BluebloodsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BluebloodsTests.release.xcconfig"; path = "Target Support Files/Pods-BluebloodsTests/Pods-BluebloodsTests.release.xcconfig"; sourceTree = "<group>"; };
+		3A12A8AA2326154400B0EA61 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		3A1B1E2622F83F8200A63F50 /* ColourManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourManager.swift; sourceTree = "<group>"; };
 		3A2B8A122320D2F300ED78AA /* UserRegistation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegistation.swift; sourceTree = "<group>"; };
 		3A2B8A142320FC5400ED78AA /* BorderdTextFild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderdTextFild.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				3AB57BAA2313B10B00879421 /* URLConstants.swift */,
 				3ACB35072316489700A2C4D0 /* CurvedView.swift */,
 				3A2B8A142320FC5400ED78AA /* BorderdTextFild.swift */,
+				3A12A8AA2326154400B0EA61 /* AppConstants.swift */,
 			);
 			path = Healper;
 			sourceTree = "<group>";
@@ -491,6 +494,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-Bluebloods/Pods-Bluebloods-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AAViewAnimator/AAViewAnimator.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/LinearProgressBar/LinearProgressBar.framework",
 				"${BUILT_PRODUCTS_DIR}/MSAL/MSAL.framework",
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
@@ -508,6 +512,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AAViewAnimator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LinearProgressBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MSAL.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
@@ -616,6 +621,7 @@
 				3AB57BA92313A4AC00879421 /* UserLoginViewControler.swift in Sources */,
 				3AEE2B8A22FA9EBC00C2E8D0 /* ContactUs.swift in Sources */,
 				3AB57BAE2313B2BC00879421 /* RestClient.swift in Sources */,
+				3A12A8AB2326154400B0EA61 /* AppConstants.swift in Sources */,
 				3A2B8A1723211AE400ED78AA /* UserRegistationCreateUser.swift in Sources */,
 				3A45013322FD3ED600F07927 /* LeaderBordIndividualCell.swift in Sources */,
 				3A2C8BBB2302CC0D00CD5911 /* DashbordBonuASPCell.swift in Sources */,

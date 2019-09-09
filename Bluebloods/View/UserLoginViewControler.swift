@@ -18,8 +18,13 @@ class UserLoginViewControler: UIViewController {
     
     @IBOutlet weak var activitiIndicator: NVActivityIndicatorView!
     
-    @IBOutlet weak var userNameTextFild: UITextField!
-    @IBOutlet weak var passwordTextFild: UITextField!
+
+    
+    @IBOutlet weak var userNameTextFild: BorderdTextFild!
+    
+
+    @IBOutlet weak var passwordTextFild: BorderdTextFild!
+    
     
     @IBOutlet weak var loginSuccessView: CurvedView!
     @IBOutlet weak var dataFetchActivitiIndicator: NVActivityIndicatorView!
@@ -29,6 +34,11 @@ class UserLoginViewControler: UIViewController {
         createGradientLayer()
         loginSuccessView.isHidden = true
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    
     }
     
     func createGradientLayer() {

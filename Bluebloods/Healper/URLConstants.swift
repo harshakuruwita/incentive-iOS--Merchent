@@ -12,7 +12,7 @@ struct APPURL {
     
     private struct Domains {
         static let Globaluri = "https://www.dev.linkedassets.com"
-        static let Localuri = "http://192.168.1.105:8080/api/v1/"
+        static let Localuri = "http://192.168.1.7:8080/api/v1/"
      
     }
     
@@ -30,4 +30,11 @@ struct APPURL {
         return LocalDomain  + "user/mobile/profile"
     }
     
+    static var getOrganization: String {
+        return LocalDomain  + "merchant/mobile/stores"
+    }
+    
+    static var addUser: String {
+        return LocalDomain  + "/merchant/mobile/user"
+    }
 }
