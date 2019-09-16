@@ -21,6 +21,11 @@ class AuthenticationViewController: UIViewController {
         storeLogo.layer.cornerRadius = storeLogo.frame.size.width/2
         storeLogo.clipsToBounds = true
         createGradientLayer()
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
     }
 
 

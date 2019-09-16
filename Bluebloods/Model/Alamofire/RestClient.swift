@@ -122,7 +122,7 @@ class RestClient: NSObject {
     
     class func makeArryPostRequestUrl(url:String, arryParam:JSON, delegate:AnyObject, requestFinished:Selector, requestFailed:Selector, tag:Int){
         
-        var awsToken = ""
+
      
          let requstUri = NSURL(string: url)
                 

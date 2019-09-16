@@ -102,7 +102,7 @@ class UserRegistationCreateUser: UIViewController {
             banner.show()
         }else{
             
-            let userJsonDatarest:[String : Any] = ["email":userEmil,"password":password,"fullname":fullname,"firstName":firstName,"lastName":lastName,"salesId":salesId,"currentStatus":"pending","mobileNo":phoneNumber,"userRole":userRoleValue,"storeId":storeid,"userType":"ORGANIZATION","salesIdList":[],"organizationId":AppConstants.organizationid]
+            let userJsonDatarest:[String : Any] = ["email":userEmil,"firstName":firstName,"lastName":lastName,"salesId":Int(salesId),"currentStatus":"pending","mobileNo":Int(phoneNumber),"userRole":userRoleValue,"storeId":storeid,"userType":"ORGANIZATION","salesIdList":[],"organizationId":Int(AppConstants.organizationid)]
             
             
             let json: JSON =  JSON(userJsonDatarest)

@@ -60,12 +60,11 @@ class UserLoginViewControler: UIViewController {
         
     }
     @IBAction func userLofinTap(_ sender: Any) {
-      /*
+      
      let emailAddressString = userNameTextFild.text!
      let passwordString = passwordTextFild.text!
         
-       //  let emailAddressString = "mc2@mailinator.com"
-      //   let passwordString = "Test@123"
+  
         
         if(!emailAddressString.isValidEmail()){
             
@@ -81,9 +80,9 @@ class UserLoginViewControler: UIViewController {
  
     }
 
-         */
         
-       mockData()
+        
+      
     
         }
 
@@ -113,27 +112,77 @@ class UserLoginViewControler: UIViewController {
         
         do {
             let userObj = JSON(response.responseObject!)
-      print(userObj)
+            activitiIndicator.stopAnimating()
             if(userObj["response"]["code"].int == 200){
                
-                
-                
-                
-                
-                
-                
-                let dbUser = UserModel()
-               // myDog.name = "Rex"
-               // myDog.age = 1
-          
-                let realm = try! Realm()
-                try! realm.write {
-                    realm.add(dbUser)
+               
+                if(userObj["response"]["code"].int == 200){
+                    
+                    let user = userObj["response"]["data"]["user"]
+                    let organization = userObj["response"]["data"]["org"]
+                    let organizationTheam = userObj["response"]["data"]["org"]["OrganizationTheme"]
+                    var theamJson = JSON.init(parseJSON:organizationTheam.stringValue)
+                    
+                    
+                    let dbUser = UserModel()
+                    let dbOrganization = Organization()
+                    let dbOrganizationTheme = OrganizationTheme()
+                    
+                    
+                    dbUser.userType =  user["userType"].stringValue
+                    dbUser.userRole =  user["userRole"].stringValue
+                    dbUser.userId =  user["userId"].intValue
+                    dbUser.updateAt =  user["updateAt"].stringValue.toNSDate()
+                    dbUser.token =  user["token"].stringValue
+                    dbUser.storeId =  user["storeId"].intValue
+                    dbUser.salesId =  user["salesId"].stringValue
+                    dbUser.regionId =  user["regionId"].intValue
+                    dbUser.organizationId =  user["organizationId"].intValue
+                    dbUser.mobileNo =  user["mobileNo"].stringValue
+                    dbUser.lastName =  user["lastName"].stringValue
+                    dbUser.firstName =  user["firstName"].stringValue
+                    dbUser.email =  user["email"].stringValue
+                    dbUser.currentStatus =  user["currentStatus"].stringValue
+                    dbUser.createdAt =  user["createdAt"].stringValue.toNSDate()
+                    dbUser.azureId =  user["azureId"].stringValue
+                    
+                    dbOrganization.id = organization["id"].intValue
+                    dbOrganization.Country = organization["Country"].stringValue
+                    dbOrganization.LoginEmail = organization["LoginEmail"].stringValue
+                    dbOrganization.ContactPersonName = organization["ContactPersonName"].stringValue
+                    dbOrganization.ContactNumber = organization["ContactNumber"].stringValue
+                    dbOrganization.ContactEmail = organization["ContactEmail"].stringValue
+                    dbOrganization.CompanyStatus = organization["CompanyStatus"].stringValue
+                    dbOrganization.CompanyName = organization["CompanyName"].stringValue
+                    dbOrganization.CompanyDomain = organization["CompanyDomain"].stringValue
+                    dbOrganization.CompanyAddress = organization["CompanyAddress"].stringValue
+                    dbOrganization.City = organization["City"].stringValue
+                    
+                    dbOrganizationTheme.color1 = theamJson["color1"].stringValue
+                    dbOrganizationTheme.color2 = theamJson["color2"].stringValue
+                    dbOrganizationTheme.logoLarge = theamJson["logoLarge"][0]["path"].stringValue
+                    dbOrganizationTheme.uid = theamJson["uid"].stringValue
+                    dbOrganizationTheme.logoSmall = theamJson["logoSmall"][0]["path"].stringValue
+                    dbOrganizationTheme.path = theamJson["path"].stringValue
+                    
+                    
+                    
+                    let realm = try! Realm()
+                    try! realm.write {
+                        realm.add(dbUser)
+                        realm.add(dbOrganization)
+                        realm.add(dbOrganizationTheme)
+                    }
+                    
+                    UserDefaults.standard.set(true, forKey: "isLogin")
+                    Switcher.updateRootVC()
                 }
                 
             }else{
+                activitiIndicator.stopAnimating()
                 let banner = NotificationBanner(title: "Sorry", subtitle: "System Error ",  style: .danger)
                 banner.show()
+                loginSuccessView.isHidden = true
             }
             
         } catch let error {
@@ -153,6 +202,12 @@ class UserLoginViewControler: UIViewController {
     
     @objc func requestFailedSync(response:ResponseSwift){
         
+    }
+    
+    
+    
+    @IBAction func unwindFromCreateUser(segue: UIStoryboardSegue) {
+       print("unwind")
     }
     
     func mockData() {

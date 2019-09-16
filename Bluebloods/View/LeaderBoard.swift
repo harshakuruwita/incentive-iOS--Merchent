@@ -8,6 +8,8 @@
 
 import UIKit
 import AAViewAnimator
+import DropDown
+
 
 class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource  {
 
@@ -26,6 +28,8 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     let storeCellReuseIdentifier = "LeaderBordStoreCell"
     var gradientLayer: CAGradientLayer!
+    let incentivePicker = DropDown()
+    let picker_values = ["val 1", "val 2", "val 3", "val 4"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,5 +106,14 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         gradientLayer.colors = [UIColor().colour2(), UIColor().colour1()]
         self.gradianentView.layer.addSublayer(gradientLayer)
     }
+    
+    @IBAction func selectIncentive(sender: AnyObject) {
+        
+        incentivePicker.anchorView = storeButton
+        incentivePicker.dataSource = ["Blue blood", "Samsung"]
+        incentivePicker.topOffset = CGPoint(x: 0, y:-(incentivePicker.anchorView?.plainView.bounds.height)!)
+        incentivePicker.show()
+     }
+   
 
 }
