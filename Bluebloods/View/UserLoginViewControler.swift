@@ -75,6 +75,8 @@ class UserLoginViewControler: UIViewController {
         activitiIndicator.startAnimating()
         
         let json: JSON =  ["Username": emailAddressString, "Password": passwordString]
+            
+       
        
         RestClient.makeArryPostRequestUrl(url: APPURL.userAuthLogin,arryParam: json, delegate: self, requestFinished: #selector(self.requestFinishedSync), requestFailed: #selector(self.requestFailedSync), tag: 1)
  
@@ -90,6 +92,8 @@ class UserLoginViewControler: UIViewController {
         
         do {
             let userObj = JSON(response.responseObject!)
+            
+            print(userObj)
             if(userObj["response"]["code"].int == 200){
                 
                 activitiIndicator.stopAnimating()
@@ -175,6 +179,7 @@ class UserLoginViewControler: UIViewController {
                     }
                     
                     UserDefaults.standard.set(true, forKey: "isLogin")
+                    UserDefaults.standard.set(user["token"].stringValue, forKey: "token")
                     Switcher.updateRootVC()
                 }
                 

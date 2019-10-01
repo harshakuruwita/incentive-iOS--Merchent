@@ -43,7 +43,40 @@ class RestClient: NSObject {
         }
         
         
-    
+    class func makeGetRequstWithToken(url:String,   delegate:AnyObject, requestFinished:Selector, requestFailed:Selector, tag:Int){
+          
+                  let access_token = UserDefaults.standard.string(forKey: "token")
+                        
+                         
+                         
+                         let Auth_header: HTTPHeaders = [
+                             "Content-Type": "application/json",
+                             "Authorization":  "Bearer" + " " + access_token!
+                             
+                             ]
+                  
+                  
+                  Alamofire.request(url, method: .get ,encoding: JSONEncoding.default, headers: Auth_header)
+                      .responseJSON { response in
+                          switch response.result {
+                          case .success(let value):
+                              print("Validation Successful")
+                              
+                              let json = JSON(value)
+                              let responseHandler = ResponseSwift()
+                              responseHandler.tag = tag
+                              responseHandler.responseObject = json
+                              _ = delegate.perform(requestFinished, with: responseHandler)
+                          case .failure(let error):
+                              
+                              let responseHandler = ResponseSwift()
+                              responseHandler.tag = tag
+                              _ =  delegate.perform(requestFailed, with: responseHandler)
+                              print(error)
+                          }
+                  }
+              
+          }
     
     class func makePutRequst(url:String, filterDictionary:Parameters,  delegate:AnyObject, requestFinished:Selector, requestFailed:Selector, tag:Int){
         
@@ -159,6 +192,43 @@ class RestClient: NSObject {
         }
     
     
+    class func makeArryPostRequestWithToken(url:String, arryParam:JSON, delegate:AnyObject, requestFinished:Selector, requestFailed:Selector, tag:Int){
+        
+
+     
+         let requstUri = NSURL(string: url)
+         let access_token = UserDefaults.standard.string(forKey: "token")
+        
+                var request = URLRequest(url: requstUri! as URL)
+                request.httpMethod = "POST"
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.setValue("Bearer" + " " + access_token!, forHTTPHeaderField: "Authorization")
+        
+                request.httpBody = try! JSONSerialization.data(withJSONObject:arryParam.rawValue)
+                
+                Alamofire.request(request)
+                    .responseJSON { response in
+                        switch response.result {
+                        case .success(let value):
+                            
+                            
+                            let json = JSON(value)
+                            let responseHandler = ResponseSwift()
+                            responseHandler.tag = tag
+                            responseHandler.responseObject = json
+                            _ = delegate.perform(requestFinished, with: responseHandler)
+                        case .failure(let error):
+                            
+                            let responseHandler = ResponseSwift()
+                            responseHandler.tag = tag
+                            _ =  delegate.perform(requestFailed, with: responseHandler)
+                            print(error)
+                        }
+                }
+                
+                
+            
+        }
     
     
     class func makeDeleteRequst(url:String,  delegate:AnyObject, requestFinished:Selector, requestFailed:Selector, tag:Int){

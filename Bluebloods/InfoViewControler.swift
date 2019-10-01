@@ -8,6 +8,9 @@
 
 import UIKit
 import WebKit
+import DropDown
+import RealmSwift
+import RealmSwift
 
 class InfoViewControler: UIViewController , WKNavigationDelegate, WKUIDelegate {
   
@@ -16,8 +19,15 @@ class InfoViewControler: UIViewController , WKNavigationDelegate, WKUIDelegate {
     
     @IBOutlet weak var navigationBarUiView: UIView!
     
+    @IBOutlet weak var incentiveLbl: UILabel!
     @IBOutlet weak var gradianentView: UIView!
     var gradientLayer: CAGradientLayer!
+    
+    var incentives : Results<Incentive>?
+    let incentivePicker = DropDown()
+    var incentiveArry:[String] = []
+    var incentiveidArry:[Int] = []
+    var incentiveUri:[String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,11 +36,35 @@ class InfoViewControler: UIViewController , WKNavigationDelegate, WKUIDelegate {
         filterBarLogo.clipsToBounds = true
         
         // Do any additional setup after loading the view.
-        let tncURL =  "https://bluebloods.nz/prizes/monthly/"
+        loadIncentive()
+        if(incentiveUri.count > 0){
+        let tncURL =  incentiveUri[0]
+        
+        print(incentiveUri)
         infoWebView.isUserInteractionEnabled = true
         infoWebView.navigationDelegate = self
         infoWebView.load(URLRequest(url: URL(string: tncURL)!))
+        }
         colourSwitcher()
+        
+        
+        incentivePicker.selectionAction = { [unowned self] (index: Int, item: String) in
+                   
+            self.incentiveLbl.text = self.incentiveArry[index]
+            
+            ///
+            if(self.incentiveUri.count > 0){
+                let tncURL =  self.incentiveUri[index]
+            
+                print(tncURL)
+                self.infoWebView.isUserInteractionEnabled = true
+                self.infoWebView.navigationDelegate = self
+                self.infoWebView.load(URLRequest(url: URL(string: tncURL)!))
+            }
+            ///
+            
+                   
+               }
     
     }
 
@@ -53,5 +87,27 @@ class InfoViewControler: UIViewController , WKNavigationDelegate, WKUIDelegate {
         gradientLayer.colors = [UIColor().colour2(), UIColor().colour1()]
         self.gradianentView.layer.addSublayer(gradientLayer)
     }
+    
+    func loadIncentive(){
+           incentives  = try! Realm().objects(Incentive.self)
+                  
+                  for allIncentives in incentives!  {
+                      print(allIncentives.incentiveName)
+                      incentiveArry.append(allIncentives.incentiveName)
+                      incentiveidArry.append(allIncentives.incentiveId)
+                    incentiveUri.append(allIncentives.url)
+                  }
+           
+           incentiveLbl.text = incentiveArry[0]
+           
+       }
+    
+    @IBAction func selectIncentive(sender: AnyObject) {
+             
+          incentivePicker.anchorView = incentiveLbl
+         incentivePicker.dataSource = incentiveArry
+             incentivePicker.topOffset = CGPoint(x: 0, y:-(incentivePicker.anchorView?.plainView.bounds.height)!)
+             incentivePicker.show()
+          }
 }
 

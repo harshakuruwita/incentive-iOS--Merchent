@@ -37,4 +37,12 @@ struct APPURL {
     static var addUser: String {
         return LocalDomain  + "merchant/mobile/user"
     }
+    
+    static var getFilter: String {
+          return LocalDomain  + "user/incentive"
+      }
+    
+    static var contactsUs: String {
+        return LocalDomain  + "merchant/contact"
+    }
 }

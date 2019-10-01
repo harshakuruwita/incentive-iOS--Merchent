@@ -9,7 +9,9 @@
 import UIKit
 import AAViewAnimator
 import DropDown
-
+import SwiftyJSON
+import RealmSwift
+import RealmSwift
 
 class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource  {
 
@@ -30,6 +32,7 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var gradientLayer: CAGradientLayer!
     let incentivePicker = DropDown()
     let picker_values = ["val 1", "val 2", "val 3", "val 4"]
+     var incentives : Results<Incentive>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,9 +45,15 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         storeButton.layer.cornerRadius = 18
         storeButton.layer.borderWidth = 1.5
 
-        
+        getIncentiveFilter()
         storeButton.layer.borderColor = UIColor().colour1()
         colourSwitcher()
+        
+        incentives  = try! Realm().objects(Incentive.self)
+        
+        for allIncentives in incentives!  {
+           print(allIncentives)
+        }
         
     }
     ///////////
@@ -115,5 +124,100 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         incentivePicker.show()
      }
    
+    func getIncentiveFilter() {
+        
+        
+         RestClient.makeGetRequstWithToken(url: APPURL.getFilter, delegate: self, requestFinished: #selector(self.requestFinishedFetch), requestFailed: #selector(self.requestFailedSync), tag: 1)
+        
+    }
+    
+    @objc func requestFinishedFetch(response:ResponseSwift){
+    
+    do {
+        let userObj = JSON(response.responseObject!)
+        let incentiveJson = userObj["response"]["Periods"]
+        
+        print(incentiveJson)
+        
+        
+        
+        
+        var IncentiveDBs:[Incentive] = []
+        var RecurringDBs:[Recurring] = []
+        var TimePeriodsDBs:[TimePeriods] = []
+        
+        let realm = try! Realm()
+                                //try! realm.write {
+
+                                  //  realm.delete(IncentiveDB)
+                                 //   realm.delete(RecurringDB)
+                                 //   realm.delete(TimePeriodsDB)
+                                //}
+       
+        
+        for (_, subJson) in incentiveJson {
+            if let incentiveName = subJson["incentiveName"].string {
+              
+            let incentiveId = subJson["incentiveId"].intValue
+            let uri = subJson["url"].stringValue
+            let timePeriodArr = subJson["timePeriodArr"]
+                let IncentiveDB = Incentive()
+                IncentiveDB.incentiveId = incentiveId
+                IncentiveDB.incentiveName = incentiveName
+                IncentiveDB.url = uri
+                
+                
+                IncentiveDBs.append(IncentiveDB)
+                
+                for (_, subtimeJson) in timePeriodArr {
+                           if let RecurringType = subtimeJson["RecurringType"].string {
+                               let recuringname = subtimeJson["name"].stringValue
+                               let recuringid = subtimeJson["id"].intValue
+                               let dropDownList = subtimeJson["dropDownList"]
+                            let RecurringDB = Recurring()
+                            RecurringDB.incentiveId = incentiveId
+                            RecurringDB.recuringid = recuringid
+                            RecurringDB.recuringname = recuringname
+                            RecurringDB.RecurringType = RecurringType
+                           
+                            RecurringDBs.append(RecurringDB)
+                            ////
+                            for (_, dropDownJson) in dropDownList {
+                        let TimePeriodsDB = TimePeriods()
+                                TimePeriodsDB.incentiveId = incentiveId
+                                TimePeriodsDB.recuringid = recuringid
+                                TimePeriodsDB.periodName = dropDownJson.stringValue
+                                TimePeriodsDBs.append(TimePeriodsDB)
+                            }
+                            ///
+                            
+                            
+                           }
+                       }
+                
+                
+                
+            }
+            
+        }
+        print(TimePeriodsDBs)
+     
+                          try! realm.write {
+                                                    
+                                         realm.add(IncentiveDBs)
+                            realm.add(RecurringDBs)
+                             realm.add(TimePeriodsDBs)
+                                                     
+                                                   }
+        
+        } catch let error {
+                 print(error)
+             }
+             
+         }
+    
+    @objc func requestFailedSync(response:ResponseSwift){
+           
+       }
 
 }
