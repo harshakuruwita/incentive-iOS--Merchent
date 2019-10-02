@@ -1,8 +1,8 @@
 //
-//  UserLoginViewControler.swift
+//  PasswordReset.swift
 //  Bluebloods
 //
-//  Created by Harsha Kuruwita on 8/26/19.
+//  Created by Harsha Kuruwita on 10/2/19.
 //  Copyright © 2019 Bluebloods. All rights reserved.
 //
 
@@ -12,7 +12,7 @@ import NotificationBannerSwift
 import NVActivityIndicatorView
 import RealmSwift
 
-class UserLoginViewControler: UIViewController {
+class PasswordReset: UIViewController {
     @IBOutlet weak var gradintView: UIView!
     var gradientLayer: CAGradientLayer!
     
@@ -21,18 +21,13 @@ class UserLoginViewControler: UIViewController {
 
     
     @IBOutlet weak var userNameTextFild: BorderdTextFild!
-    
 
-    @IBOutlet weak var passwordTextFild: BorderdTextFild!
-    
-    
-    @IBOutlet weak var loginSuccessView: CurvedView!
     @IBOutlet weak var dataFetchActivitiIndicator: NVActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         createGradientLayer()
-        loginSuccessView.isHidden = true
+      
         // Do any additional setup after loading the view.
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
@@ -61,16 +56,13 @@ class UserLoginViewControler: UIViewController {
         userNameTextFild.layer.borderColor = UIColor.white.cgColor
         userNameTextFild.layer.borderWidth = 1.0
         
-        passwordTextFild.layer.cornerRadius = 25.0
-        passwordTextFild.layer.masksToBounds = true
-        passwordTextFild.layer.borderColor = UIColor.white.cgColor
-        passwordTextFild.layer.borderWidth = 1.0
+  
         
     }
     @IBAction func userLofinTap(_ sender: Any) {
       
      let emailAddressString = userNameTextFild.text!
-     let passwordString = passwordTextFild.text!
+     
         
   
         
@@ -82,7 +74,7 @@ class UserLoginViewControler: UIViewController {
         
         activitiIndicator.startAnimating()
         
-        let json: JSON =  ["Username": emailAddressString, "Password": passwordString]
+        let json: JSON =  ["Username": emailAddressString]
             
        
        
@@ -105,7 +97,7 @@ class UserLoginViewControler: UIViewController {
             if(userObj["response"]["code"].int == 200){
                 
                 activitiIndicator.stopAnimating()
-                loginSuccessView.isHidden = false
+
                 dataFetchActivitiIndicator.startAnimating()
                 fetchUserData(access_token: userObj["response"]["data"]["access_token"].stringValue)
                 
@@ -195,7 +187,7 @@ class UserLoginViewControler: UIViewController {
                 activitiIndicator.stopAnimating()
                 let banner = NotificationBanner(title: "Sorry", subtitle: "System Error ",  style: .danger)
                 banner.show()
-                loginSuccessView.isHidden = true
+            
             }
             
         } catch let error {

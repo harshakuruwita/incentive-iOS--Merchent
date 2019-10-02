@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 import RealmSwift
 import DropDown
+import SwiftyJSON
 
 class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var filterbarLogo: UIImageView!
@@ -40,17 +41,26 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
     var selectedRecuringId = 0
     
     var timePeriodArry:[String] = []
-
+    var isTokenSync = false
+    var apnsToken = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+         isTokenSync = UserDefaults.standard.bool(forKey: "isTokenSync")
+        apnsToken = UserDefaults.standard.string(forKey: "apnsToken")!
         filterbarLogo.layer.cornerRadius = filterbarLogo.frame.height / 2
         filterbarLogo.clipsToBounds = true
         colourSwitcher()
         
+        
+        if(isTokenSync){
+            print("sync Token is - \(apnsToken)")
+        }else{
+             syncDeviceToken()
+        }
        
-       loadIncentive()
+     //  loadIncentive()
         
         
         
@@ -192,6 +202,30 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
         
          timePeriodLbl.text = timePeriodArry[0]
     }
+    
+    
+    func syncDeviceToken(){
+        
+        let json: JSON =  ["deviceType": "ios","token": apnsToken]
+        print("json is---\(json)")
+        print("json is---\(APPURL.sendToken)")
+        RestClient.makeArryPostRequestWithToken(url: APPURL.sendToken,arryParam: json, delegate: self, requestFinished: #selector(self.requestFinishedSync), requestFailed: #selector(self.requestFailedSync), tag: 1)
+    }
 
+    @objc func requestFinishedSync(response:ResponseSwift){
+    
+    do {
+        let userObj = JSON(response.responseObject!)
+        print(userObj)
+       //  UserDefaults.standard.set(true, forKey: "isLogin")
+    } catch let error {
+              print(error)
+          }
+          
+      }
+    
+    @objc func requestFailedSync(response:ResponseSwift){
+        
+    }
 }
 

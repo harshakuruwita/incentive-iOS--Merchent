@@ -114,7 +114,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Bluebloods/Model/Alamofire/RestClient.swift"
-            timestampString = "589805171.221311"
+            timestampString = "591690536.042725"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "137"
@@ -131,7 +131,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Bluebloods/Model/Alamofire/RestClient.swift"
-            timestampString = "589805171.221392"
+            timestampString = "591690536.045236"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "144"
@@ -148,7 +148,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Bluebloods/Model/Alamofire/RestClient.swift"
-            timestampString = "589805171.22146"
+            timestampString = "591690536.045521"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "139"
@@ -221,7 +221,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "119"
             endingLineNumber = "119"
-            landmarkName = "requestFinishedFetch(response:)"
+            landmarkName = "requestFinishedSync(response:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -255,7 +255,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "94"
             endingLineNumber = "94"
-            landmarkName = "requestFinishedSync(response:)"
+            landmarkName = "userLofinTap(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -386,11 +386,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Bluebloods/FirstViewController.swift"
-            timestampString = "591521594.858651"
+            timestampString = "591690536.046012"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "colourSwitcher()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ED886C1D-A614-43FC-BB65-319F09515E83"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Bluebloods/Model/Realam/UserModel.swift"
+            timestampString = "591682529.834644"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "5"
+            endingLineNumber = "5"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
