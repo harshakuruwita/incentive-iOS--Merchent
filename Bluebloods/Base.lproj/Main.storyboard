@@ -534,7 +534,7 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PacificommLogo" translatesAutoresizingMaskIntoConstraints="NO" id="xOS-OT-eA4">
-                                <rect key="frame" x="50" y="317" width="314.00000000000011" height="80"/>
+                                <rect key="frame" x="50" y="317" width="314" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="Wb5-Kj-j1g"/>
                                     <constraint firstAttribute="width" constant="275" id="p4H-aW-1mY"/>
