@@ -54,6 +54,9 @@
 		3AE806F722F429C80000921F /* UserNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE806F622F429C80000921F /* UserNavigator.swift */; };
 		3AEE2B8A22FA9EBC00C2E8D0 /* ContactUs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE2B8922FA9EBC00C2E8D0 /* ContactUs.swift */; };
 		3AEE2B8C22FAD2D500C2E8D0 /* LeaderBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE2B8B22FAD2D500C2E8D0 /* LeaderBoard.swift */; };
+		3AF188732345AF18002D22B2 /* Userprofile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF188722345AF18002D22B2 /* Userprofile.swift */; };
+		3AF188772345B8EC002D22B2 /* UserProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF188762345B8EC002D22B2 /* UserProfileCell.swift */; };
+		3AF188792345CFD7002D22B2 /* LauncherVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF188782345CFD7002D22B2 /* LauncherVC.swift */; };
 		5B8127E7B7F21361FD65625D /* Pods_BluebloodsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF02AFDF0616B0E524B12F0D /* Pods_BluebloodsTests.framework */; };
 		659938FDF1FC4D279FB1BFF3 /* Pods_Bluebloods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E30AF6F1D602F23AA9C324ED /* Pods_Bluebloods.framework */; };
 /* End PBXBuildFile section */
@@ -131,6 +134,9 @@
 		3AE806F622F429C80000921F /* UserNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNavigator.swift; sourceTree = "<group>"; };
 		3AEE2B8922FA9EBC00C2E8D0 /* ContactUs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactUs.swift; sourceTree = "<group>"; };
 		3AEE2B8B22FAD2D500C2E8D0 /* LeaderBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderBoard.swift; sourceTree = "<group>"; };
+		3AF188722345AF18002D22B2 /* Userprofile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Userprofile.swift; sourceTree = "<group>"; };
+		3AF188762345B8EC002D22B2 /* UserProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileCell.swift; sourceTree = "<group>"; };
+		3AF188782345CFD7002D22B2 /* LauncherVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauncherVC.swift; sourceTree = "<group>"; };
 		3AF841C52330B9DC00827F54 /* Bluebloods.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bluebloods.entitlements; sourceTree = "<group>"; };
 		6127B0B69F00C5C9D04CE5D3 /* Pods-BluebloodsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BluebloodsUITests.debug.xcconfig"; path = "Target Support Files/Pods-BluebloodsUITests/Pods-BluebloodsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		9E5CEC2C6FBC5C0FBD61F8FC /* Pods_BluebloodsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BluebloodsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -222,6 +228,7 @@
 				3A45013222FD3ED600F07927 /* LeaderBordIndividualCell.swift */,
 				3A2C8BA7230289EC00CD5911 /* DashbordPointsCell.swift */,
 				3A2C8BBA2302CC0D00CD5911 /* DashbordBonuASPCell.swift */,
+				3AF188762345B8EC002D22B2 /* UserProfileCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -342,6 +349,8 @@
 				3A2B8A122320D2F300ED78AA /* UserRegistation.swift */,
 				3A2B8A1623211AE400ED78AA /* UserRegistationCreateUser.swift */,
 				3A60123A23449E8F0074B8D4 /* PasswordReset.swift */,
+				3AF188722345AF18002D22B2 /* Userprofile.swift */,
+				3AF188782345CFD7002D22B2 /* LauncherVC.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -503,40 +512,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Bluebloods/Pods-Bluebloods-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AAViewAnimator/AAViewAnimator.framework",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
-				"${BUILT_PRODUCTS_DIR}/LinearProgressBar/LinearProgressBar.framework",
-				"${BUILT_PRODUCTS_DIR}/MSAL/MSAL.framework",
-				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
-				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
-				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
-				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-Bluebloods/Pods-Bluebloods-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AAViewAnimator.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LinearProgressBar.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MSAL.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-Bluebloods/Pods-Bluebloods-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -641,11 +621,14 @@
 				3ABC4278233B2C2C0000A6A7 /* TimePeriods.swift in Sources */,
 				3A12A8AB2326154400B0EA61 /* AppConstants.swift in Sources */,
 				3A2B8A1723211AE400ED78AA /* UserRegistationCreateUser.swift in Sources */,
+				3AF188772345B8EC002D22B2 /* UserProfileCell.swift in Sources */,
 				3A45013322FD3ED600F07927 /* LeaderBordIndividualCell.swift in Sources */,
 				3A2C8BBB2302CC0D00CD5911 /* DashbordBonuASPCell.swift in Sources */,
 				3AB57BAB2313B10B00879421 /* URLConstants.swift in Sources */,
+				3AF188732345AF18002D22B2 /* Userprofile.swift in Sources */,
 				3A1B1E2722F83F8200A63F50 /* ColourManager.swift in Sources */,
 				3AE7331823166CC10017217D /* UserModel.swift in Sources */,
+				3AF188792345CFD7002D22B2 /* LauncherVC.swift in Sources */,
 				3A45013122FD350900F07927 /* LeaderBordStoreCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

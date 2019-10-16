@@ -12,10 +12,12 @@ target 'Bluebloods' do
   pod 'NVActivityIndicatorView'
   pod 'SDWebImage'
   pod 'AAViewAnimator'
-  pod 'MSAL'
+  pod 'IQKeyboardManagerSwift'
   pod 'LinearProgressBar'
   pod 'NotificationBannerSwift'
   pod 'DropDown'
+
+
 
   
 

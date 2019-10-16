@@ -2,11 +2,9 @@ PODS:
   - AAViewAnimator (1.1)
   - Alamofire (4.8.2)
   - DropDown (2.3.13)
+  - IQKeyboardManagerSwift (6.5.1)
   - LinearProgressBar (1.0.1)
   - MarqueeLabel (4.0.0)
-  - MSAL (0.4.3):
-    - MSAL/app-lib (= 0.4.3)
-  - MSAL/app-lib (0.4.3)
   - NotificationBannerSwift (2.3.0):
     - MarqueeLabel (~> 4.0.0)
     - SnapKit (~> 5.0.0)
@@ -28,8 +26,8 @@ DEPENDENCIES:
   - AAViewAnimator
   - Alamofire
   - DropDown
+  - IQKeyboardManagerSwift
   - LinearProgressBar
-  - MSAL
   - NotificationBannerSwift
   - NVActivityIndicatorView
   - RealmSwift
@@ -37,13 +35,12 @@ DEPENDENCIES:
   - SwiftyJSON
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - AAViewAnimator
     - Alamofire
     - DropDown
     - LinearProgressBar
     - MarqueeLabel
-    - MSAL
     - NotificationBannerSwift
     - NVActivityIndicatorView
     - Realm
@@ -51,14 +48,16 @@ SPEC REPOS:
     - SDWebImage
     - SnapKit
     - SwiftyJSON
+  trunk:
+    - IQKeyboardManagerSwift
 
 SPEC CHECKSUMS:
   AAViewAnimator: 3cbd05e73ebda910231f966f8043ba96e674eee5
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
+  IQKeyboardManagerSwift: 9ac7524fad9f9fe9a3b98c927e7772471ca546d2
   LinearProgressBar: f6a74dbabed229dbb1a7978089e2e4317a3a0ee0
   MarqueeLabel: b55b26e690b6ad41faedd95cbf5eae6f1d1735b4
-  MSAL: 6e578f727efafb19ba15d0c365a74761da330875
   NotificationBannerSwift: fdc44b934be7a8175f7a7170a75a11c672990e70
   NVActivityIndicatorView: b19ddab2576f805cbe0fb2306cba3476e09a1dea
   Realm: b30db41ff34fc858ffc25ba8d44a82c164e7ccd0
@@ -67,6 +66,6 @@ SPEC CHECKSUMS:
   SnapKit: fd22d10eb9aff484d79a8724eab922c1ddf89bcf
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: 539747a61250748c396c0d954f25ceacf5a5cac8
+PODFILE CHECKSUM: c47d47ffc1fca827ed80561a41ce4a9c6504a21e
 
-COCOAPODS: 1.6.0
+COCOAPODS: 1.8.0.beta.2

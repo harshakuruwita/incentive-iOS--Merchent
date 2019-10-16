@@ -7,9 +7,18 @@
 //
 
 import UIKit
+import LinearProgressBar
 
 class DashbordBonuASPCell: UITableViewCell {
 
+    @IBOutlet weak var aspheader: UILabel!
+    @IBOutlet weak var achementHeadder: UILabel!
+    @IBOutlet weak var yorArHeadder: UILabel!
+    @IBOutlet weak var progressBarone: LinearProgressBar!
+    @IBOutlet weak var progressbarTwo: LinearProgressBar!
+    
+    @IBOutlet weak var targetArHeader: UILabel!
+    @IBOutlet weak var targetValue: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

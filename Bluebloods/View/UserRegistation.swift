@@ -12,6 +12,7 @@ import SwiftyJSON
 import DropDown
 import NVActivityIndicatorView
 
+
 class UserRegistation: UIViewController {
     @IBOutlet weak var gradientView: UIView!
     var gradientLayer: CAGradientLayer!
@@ -46,6 +47,8 @@ class UserRegistation: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         createGradientLayer()
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
         // Do any additional setup after loading the view.
         storeDropdownHolder.isHidden = true
         dropDownStore.width = UIScreen.main.bounds.width
@@ -61,6 +64,8 @@ class UserRegistation: UIViewController {
                 self.activitiIndicator.startAnimating()
                 let json: JSON =  ["organizationId": AppConstants.organizationid]
                 
+            
+                
                 RestClient.makeArryPostRequestUrl(url: APPURL.getOrganization,arryParam: json, delegate: self, requestFinished: #selector(self.requestFinishedgetOrganization), requestFailed: #selector(self.requestFailedSync), tag: 1)
             }
             
@@ -72,12 +77,15 @@ class UserRegistation: UIViewController {
             self.storeid = self.storeJson[index]["id"].intValue
         }
     }
-    
+    @objc func dismissKeyboard() {
+        
+        view.endEditing(true)
+    }
 
     func createGradientLayer() {
         gradientLayer = CAGradientLayer()
         gradientLayer.frame = self.view.bounds
-        gradientLayer.colors = [UIColor(red: 28/255, green: 169/255, blue: 226/255, alpha: 1).cgColor, UIColor(red: 227/255, green: 183/255, blue: 195/255, alpha: 1).cgColor]
+        gradientLayer.colors = [UIColor(red: 31/255, green: 145/255, blue: 135/255, alpha: 1).cgColor, UIColor(red: 174/255, green: 203/255, blue: 191/255, alpha: 1).cgColor]
         self.gradientView.layer.addSublayer(gradientLayer)
   
     }
@@ -117,7 +125,7 @@ class UserRegistation: UIViewController {
             
             let userJsonDatarest:[String : Any] = ["email":emailAdderss,"firstName":firstName,"lastName":lastName,"salesId":Int(salesId),"currentStatus":"pending","mobileNo":Int(phoneNumber),"userRole":userRoleValue,"storeId":storeid,"userType":"ORGANIZATION","salesIdList":[],"organizationId":Int(AppConstants.organizationid)]
             
-            
+            print(JSON(userJsonDatarest))
             let json: JSON =  JSON(userJsonDatarest)
             activitiIndicator.startAnimating()
             RestClient.makeArryPostRequestUrl(url: APPURL.addUser,arryParam: json, delegate: self, requestFinished: #selector(self.requestFinishedgCreateUser), requestFailed: #selector(self.requestFailedSync), tag: 1)

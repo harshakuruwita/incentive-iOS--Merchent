@@ -35,6 +35,11 @@ class InfoViewControler: UIViewController , WKNavigationDelegate, WKUIDelegate {
         filterBarLogo.layer.cornerRadius = filterBarLogo.frame.height / 2
         filterBarLogo.clipsToBounds = true
         
+        
+        let realm = try! Realm()
+        let organizationTheme = realm.objects(OrganizationTheme.self)
+        let storeLogoPath  = organizationTheme[0].logoSmall
+        filterBarLogo.sd_setImage(with: URL(string: storeLogoPath), placeholderImage: UIImage(named: "placeholder.png"))
         // Do any additional setup after loading the view.
         loadIncentive()
         if(incentiveUri.count > 0){

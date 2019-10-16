@@ -7,25 +7,29 @@
 //
 
 import UIKit
-import MSAL
+
 
 class AuthenticationViewController: UIViewController {
 
     @IBOutlet weak var gradientView: UIView!
     @IBOutlet weak var storeLogo: UIImageView!
     
+    @IBOutlet weak var SiginButton: UIButton!
     var gradientLayer: CAGradientLayer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        storeLogo.layer.cornerRadius = storeLogo.frame.size.width/2
-        storeLogo.clipsToBounds = true
+        
         createGradientLayer()
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
+        
+        SiginButton.layer.cornerRadius = 5
+        SiginButton.layer.borderWidth = 1
+        SiginButton.layer.borderColor = UIColor.white.cgColor
     }
 
 
@@ -33,7 +37,7 @@ class AuthenticationViewController: UIViewController {
     func createGradientLayer() {
         gradientLayer = CAGradientLayer()
         gradientLayer.frame = self.view.bounds
-        gradientLayer.colors = [UIColor(red: 28/255, green: 169/255, blue: 226/255, alpha: 1).cgColor, UIColor(red: 227/255, green: 183/255, blue: 195/255, alpha: 1).cgColor]
+        gradientLayer.colors = [UIColor(red: 31/255, green: 145/255, blue: 135/255, alpha: 1).cgColor, UIColor(red: 174/255, green: 203/255, blue: 191/255, alpha: 1).cgColor]
         self.gradientView.layer.addSublayer(gradientLayer)
     }
     /*

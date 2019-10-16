@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C89C4FA9BA5C60F1B371F0E7DE084635"
+               BlueprintIdentifier = "89615ECB3F78B231D416BD93F6998B4E"
                BuildableName = "LinearProgressBar.framework"
                BlueprintName = "LinearProgressBar"
                ReferencedContainer = "container:Pods.xcodeproj">

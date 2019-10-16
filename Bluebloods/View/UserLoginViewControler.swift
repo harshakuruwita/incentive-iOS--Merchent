@@ -52,7 +52,7 @@ class UserLoginViewControler: UIViewController {
     func createGradientLayer() {
         gradientLayer = CAGradientLayer()
         gradientLayer.frame = self.view.bounds
-        gradientLayer.colors = [UIColor(red: 28/255, green: 169/255, blue: 226/255, alpha: 1).cgColor, UIColor(red: 227/255, green: 183/255, blue: 195/255, alpha: 1).cgColor]
+       gradientLayer.colors = [UIColor(red: 31/255, green: 145/255, blue: 135/255, alpha: 1).cgColor, UIColor(red: 174/255, green: 203/255, blue: 191/255, alpha: 1).cgColor]
         self.gradintView.layer.addSublayer(gradientLayer)
         
         
@@ -84,7 +84,7 @@ class UserLoginViewControler: UIViewController {
         
         let json: JSON =  ["Username": emailAddressString, "Password": passwordString]
             
-       
+     
        
         RestClient.makeArryPostRequestUrl(url: APPURL.userAuthLogin,arryParam: json, delegate: self, requestFinished: #selector(self.requestFinishedSync), requestFailed: #selector(self.requestFailedSync), tag: 1)
  
@@ -104,7 +104,7 @@ class UserLoginViewControler: UIViewController {
             print(userObj)
             if(userObj["response"]["code"].int == 200){
                 
-                activitiIndicator.stopAnimating()
+                
                 loginSuccessView.isHidden = false
                 dataFetchActivitiIndicator.startAnimating()
                 fetchUserData(access_token: userObj["response"]["data"]["access_token"].stringValue)
@@ -135,7 +135,6 @@ class UserLoginViewControler: UIViewController {
                     let organizationTheam = userObj["response"]["data"]["org"]["OrganizationTheme"]
                     var theamJson = JSON.init(parseJSON:organizationTheam.stringValue)
                     
-                    
                     let dbUser = UserModel()
                     let dbOrganization = Organization()
                     let dbOrganizationTheme = OrganizationTheme()
@@ -147,6 +146,7 @@ class UserLoginViewControler: UIViewController {
                     dbUser.updateAt =  user["updateAt"].stringValue.toNSDate()
                     dbUser.token =  user["token"].stringValue
                     dbUser.storeId =  user["storeId"].intValue
+                    dbUser.storeName = user["CompanyName"].stringValue
                     dbUser.salesId =  user["salesId"].stringValue
                     dbUser.regionId =  user["regionId"].intValue
                     dbUser.organizationId =  user["organizationId"].intValue

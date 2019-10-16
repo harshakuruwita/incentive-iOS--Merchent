@@ -9,6 +9,12 @@
 import UIKit
 
 class LeaderBordStoreCell: UITableViewCell {
+    
+    
+    @IBOutlet weak var positionLbl: UILabel!
+    @IBOutlet weak var nameLbl: UILabel!
+    @IBOutlet weak var pointsLbl: UILabel!
+    
 
     @IBOutlet weak var roundUiView: UIView!
     override func awakeFromNib() {

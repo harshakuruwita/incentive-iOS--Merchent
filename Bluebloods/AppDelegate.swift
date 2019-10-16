@@ -9,6 +9,8 @@
 import UIKit
 import RealmSwift
 import UserNotifications
+import SwiftyJSON
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,8 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         print(Realm.Configuration.defaultConfiguration.fileURL!)
-        registerForPushNotifications()
+        IQKeyboardManager.shared.enable = true
         Switcher.updateRootVC()
+        
         return true
        
     }
@@ -104,13 +107,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                let title = alertDict["title"] as? String,
                let body = alertDict["body"] as? String
                else { return }
-         print(body)
+       
            let alertController = UIAlertController(title: title, message: body, preferredStyle: .alert)
            let okAct = UIAlertAction(title: "Ok", style: .default, handler: nil)
            alertController.addAction(okAct)
            self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
            completionHandler(UIBackgroundFetchResult.noData)
     }
+    
+    
+    
+ 
+
 
 }
 

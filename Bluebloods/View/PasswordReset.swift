@@ -47,7 +47,7 @@ class PasswordReset: UIViewController {
     func createGradientLayer() {
         gradientLayer = CAGradientLayer()
         gradientLayer.frame = self.view.bounds
-        gradientLayer.colors = [UIColor(red: 28/255, green: 169/255, blue: 226/255, alpha: 1).cgColor, UIColor(red: 227/255, green: 183/255, blue: 195/255, alpha: 1).cgColor]
+        gradientLayer.colors = [UIColor(red: 31/255, green: 145/255, blue: 135/255, alpha: 1).cgColor, UIColor(red: 174/255, green: 203/255, blue: 191/255, alpha: 1).cgColor]
         self.gradintView.layer.addSublayer(gradientLayer)
         
         
@@ -74,11 +74,11 @@ class PasswordReset: UIViewController {
         
         activitiIndicator.startAnimating()
         
-        let json: JSON =  ["Username": emailAddressString]
+        let json: JSON =  ["email": emailAddressString]
             
        
        
-        RestClient.makeArryPostRequestUrl(url: APPURL.userAuthLogin,arryParam: json, delegate: self, requestFinished: #selector(self.requestFinishedSync), requestFailed: #selector(self.requestFailedSync), tag: 1)
+        RestClient.makeArryPostRequestWithToken(url: APPURL.resetPassword,arryParam: json, delegate: self, requestFinished: #selector(self.requestFinishedSync), requestFailed: #selector(self.requestFailedSync), tag: 1)
  
     }
 
@@ -91,104 +91,19 @@ class PasswordReset: UIViewController {
     @objc func requestFinishedSync(response:ResponseSwift){
         
         do {
-            let userObj = JSON(response.responseObject!)
-            
-            print(userObj)
-            if(userObj["response"]["code"].int == 200){
-                
-                activitiIndicator.stopAnimating()
-
-                dataFetchActivitiIndicator.startAnimating()
-                fetchUserData(access_token: userObj["response"]["data"]["access_token"].stringValue)
-                
-            }else{
-                let banner = NotificationBanner(title: "Sorry", subtitle: "Wrong password",  style: .danger)
-                banner.show()
-            }
-            
-        } catch let error {
-            print(error)
-        }
-        
-    }
-    
-    @objc func requestFinishedFetch(response:ResponseSwift){
-        
-        do {
-            let userObj = JSON(response.responseObject!)
             activitiIndicator.stopAnimating()
-            if(userObj["response"]["code"].int == 200){
-               
-               
-                if(userObj["response"]["code"].int == 200){
-                    
-                    let user = userObj["response"]["data"]["user"]
-                    let organization = userObj["response"]["data"]["org"]
-                    let organizationTheam = userObj["response"]["data"]["org"]["OrganizationTheme"]
-                    var theamJson = JSON.init(parseJSON:organizationTheam.stringValue)
-                    
-                    
-                    let dbUser = UserModel()
-                    let dbOrganization = Organization()
-                    let dbOrganizationTheme = OrganizationTheme()
-                    
-                    
-                    dbUser.userType =  user["userType"].stringValue
-                    dbUser.userRole =  user["userRole"].stringValue
-                    dbUser.userId =  user["userId"].intValue
-                    dbUser.updateAt =  user["updateAt"].stringValue.toNSDate()
-                    dbUser.token =  user["token"].stringValue
-                    dbUser.storeId =  user["storeId"].intValue
-                    dbUser.salesId =  user["salesId"].stringValue
-                    dbUser.regionId =  user["regionId"].intValue
-                    dbUser.organizationId =  user["organizationId"].intValue
-                    dbUser.mobileNo =  user["mobileNo"].stringValue
-                    dbUser.lastName =  user["lastName"].stringValue
-                    dbUser.firstName =  user["firstName"].stringValue
-                    dbUser.email =  user["email"].stringValue
-                    dbUser.currentStatus =  user["currentStatus"].stringValue
-                    dbUser.createdAt =  user["createdAt"].stringValue.toNSDate()
-                    dbUser.azureId =  user["azureId"].stringValue
-                    
-                    dbOrganization.id = organization["id"].intValue
-                    dbOrganization.Country = organization["Country"].stringValue
-                    dbOrganization.LoginEmail = organization["LoginEmail"].stringValue
-                    dbOrganization.ContactPersonName = organization["ContactPersonName"].stringValue
-                    dbOrganization.ContactNumber = organization["ContactNumber"].stringValue
-                    dbOrganization.ContactEmail = organization["ContactEmail"].stringValue
-                    dbOrganization.CompanyStatus = organization["CompanyStatus"].stringValue
-                    dbOrganization.CompanyName = organization["CompanyName"].stringValue
-                    dbOrganization.CompanyDomain = organization["CompanyDomain"].stringValue
-                    dbOrganization.CompanyAddress = organization["CompanyAddress"].stringValue
-                    dbOrganization.City = organization["City"].stringValue
-                    
-                    dbOrganizationTheme.color1 = theamJson["color1"].stringValue
-                    dbOrganizationTheme.color2 = theamJson["color2"].stringValue
-                    dbOrganizationTheme.logoLarge = theamJson["logoLarge"][0]["path"].stringValue
-                    dbOrganizationTheme.uid = theamJson["uid"].stringValue
-                    dbOrganizationTheme.logoSmall = theamJson["logoSmall"][0]["path"].stringValue
-                    dbOrganizationTheme.path = theamJson["path"].stringValue
-                    
-                    
-                    
-                    let realm = try! Realm()
-                    try! realm.write {
-                        realm.add(dbUser)
-                        realm.add(dbOrganization)
-                        realm.add(dbOrganizationTheme)
-                    }
-                    
-                    UserDefaults.standard.set(true, forKey: "isLogin")
-                    UserDefaults.standard.set(user["token"].stringValue, forKey: "token")
-                    Switcher.updateRootVC()
-                }
+            let userObj = JSON(response.responseObject!)
+            
+            if(userObj["response"]["code"].intValue == 200){
+                let banner = NotificationBanner(title: "Success", subtitle: "The password reset email has been sent to your on-file email address.",  style: .success)
+                banner.show()
+                 self.performSegue(withIdentifier: "passwordResetSuccess", sender: nil)
                 
             }else{
-                activitiIndicator.stopAnimating()
-                let banner = NotificationBanner(title: "Sorry", subtitle: "System Error ",  style: .danger)
+                let banner = NotificationBanner(title: "Sorry", subtitle: "Invalid email address",  style: .danger)
                 banner.show()
-            
             }
+        
             
         } catch let error {
             print(error)
@@ -196,12 +111,10 @@ class PasswordReset: UIViewController {
         
     }
     
+
     
-    func fetchUserData(access_token:String) {
-        
-        let uri = APPURL.fetchUserData
-        RestClient.makeGetRequst(url: uri,access_token: access_token, delegate: self, requestFinished: #selector(self.requestFinishedFetch), requestFailed: #selector(self.requestFailedSync), tag: 1)
-    }
+    
+
     
     
     
@@ -215,86 +128,6 @@ class PasswordReset: UIViewController {
        print("unwind")
     }
     
-    func mockData() {
-        if let path = Bundle.main.path(forResource: "fetchUserData", ofType: "JSON") {
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
-                let jsonObj = try JSON(data: data)
-                
-                
-                /////////////
-                let userObj = JSON(jsonObj)
-                if(userObj["response"]["code"].int == 200){
-                    
-                    let user = userObj["response"]["data"]["user"]
-                    let organization = userObj["response"]["data"]["org"]
-                    let organizationTheam = userObj["response"]["data"]["org"]["OrganizationTheme"]
-                     var theamJson = JSON.init(parseJSON:organizationTheam.stringValue)
-                    
-                    
-                    let dbUser = UserModel()
-                    let dbOrganization = Organization()
-                    let dbOrganizationTheme = OrganizationTheme()
-                   
-                    
-                    dbUser.userType =  user["userType"].stringValue
-                    dbUser.userRole =  user["userRole"].stringValue
-                    dbUser.userId =  user["userId"].intValue
-                    dbUser.updateAt =  user["updateAt"].stringValue.toNSDate()
-                    dbUser.token =  user["token"].stringValue
-                    dbUser.storeId =  user["storeId"].intValue
-                    dbUser.salesId =  user["salesId"].stringValue
-                    dbUser.regionId =  user["regionId"].intValue
-                    dbUser.organizationId =  user["organizationId"].intValue
-                    dbUser.mobileNo =  user["mobileNo"].stringValue
-                    dbUser.lastName =  user["lastName"].stringValue
-                    dbUser.firstName =  user["firstName"].stringValue
-                    dbUser.email =  user["email"].stringValue
-                    dbUser.currentStatus =  user["currentStatus"].stringValue
-                    dbUser.createdAt =  user["createdAt"].stringValue.toNSDate()
-                    dbUser.azureId =  user["azureId"].stringValue
-                    
-                    dbOrganization.id = organization["id"].intValue
-                    dbOrganization.Country = organization["Country"].stringValue
-                    dbOrganization.LoginEmail = organization["LoginEmail"].stringValue
-                    dbOrganization.ContactPersonName = organization["ContactPersonName"].stringValue
-                    dbOrganization.ContactNumber = organization["ContactNumber"].stringValue
-                    dbOrganization.ContactEmail = organization["ContactEmail"].stringValue
-                    dbOrganization.CompanyStatus = organization["CompanyStatus"].stringValue
-                    dbOrganization.CompanyName = organization["CompanyName"].stringValue
-                    dbOrganization.CompanyDomain = organization["CompanyDomain"].stringValue
-                    dbOrganization.CompanyAddress = organization["CompanyAddress"].stringValue
-                    dbOrganization.City = organization["City"].stringValue
-                    
-                    dbOrganizationTheme.color1 = theamJson["color1"].stringValue
-                    dbOrganizationTheme.color2 = theamJson["color2"].stringValue
-                    dbOrganizationTheme.logoLarge = theamJson["logoLarge"][0]["path"].stringValue
-                    dbOrganizationTheme.uid = theamJson["uid"].stringValue
-                    dbOrganizationTheme.logoSmall = theamJson["logoSmall"][0]["path"].stringValue
-                    dbOrganizationTheme.path = theamJson["path"].stringValue
-
-                   
-                    
-                    let realm = try! Realm()
-                    try! realm.write {
-                        realm.add(dbUser)
-                        realm.add(dbOrganization)
-                        realm.add(dbOrganizationTheme)
-                    }
- 
-                    UserDefaults.standard.set(true, forKey: "isLogin")
-                    Switcher.updateRootVC()
-                }
-                ////////////
-                
-                
-            } catch let error {
-                print("parse error: \(error.localizedDescription)")
-            }
-        } else {
-            print("Invalid filename/path.")
-        }
-    }
     
 }
 

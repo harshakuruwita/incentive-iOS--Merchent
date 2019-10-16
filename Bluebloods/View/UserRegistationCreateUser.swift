@@ -12,6 +12,7 @@ import NotificationBannerSwift
 import DropDown
 import NVActivityIndicatorView
 
+
 class UserRegistationCreateUser: UIViewController {
 
     @IBOutlet weak var gradientView: UIView!
@@ -42,6 +43,7 @@ class UserRegistationCreateUser: UIViewController {
         
        createGradientLayer()
         storeButton.isHidden = true
+
     dropDownRole.selectionAction = { [unowned self] (index: Int, item: String) in
             print("Selected item: \(item) at index: \(index)")
         if(index == 0){
@@ -70,7 +72,7 @@ class UserRegistationCreateUser: UIViewController {
     func createGradientLayer() {
         gradientLayer = CAGradientLayer()
         gradientLayer.frame = self.view.bounds
-        gradientLayer.colors = [UIColor(red: 28/255, green: 169/255, blue: 226/255, alpha: 1).cgColor, UIColor(red: 227/255, green: 183/255, blue: 195/255, alpha: 1).cgColor]
+        gradientLayer.colors = [UIColor(red: 31/255, green: 145/255, blue: 135/255, alpha: 1).cgColor, UIColor(red: 174/255, green: 203/255, blue: 191/255, alpha: 1).cgColor]
        self.gradientView.layer.addSublayer(gradientLayer)
    
     }

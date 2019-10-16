@@ -12,7 +12,9 @@ struct APPURL {
     
     private struct Domains {
         static let Globaluri = "https://www.dev.linkedassets.com"
-        static let Localuri = "http://192.168.1.21:8080/api/v1/"
+        static let Localuri = "https://dev-incentive-api-vc.azurewebsites.net/api/v1/"
+        
+      //  static let Localuri = "http://192.168.1.9:8080/api/v1/"
      
     }
     
@@ -49,4 +51,20 @@ struct APPURL {
     static var sendToken: String {
           return LocalDomain  + "message/mobile_data"
       }
+    
+    static var resetPassword: String {
+        return LocalDomain  + "auth/reset_password"
+    }
+    
+    static var fetchKpiData: String {
+        return LocalDomain  + "user/kpi/tbl/result?incentivefield="
+    }
+    
+    static var fetchLeaderBordData: String {
+        return LocalDomain  + "user/kpi/tbl/result?incentivefield="
+    }
+    
+    static var getUsersOfStoremanager: String {
+        return LocalDomain  + "user/kpi/tbl/result?incentivefield="
+    }
 }

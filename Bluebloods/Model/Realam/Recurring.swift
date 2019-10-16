@@ -15,7 +15,7 @@ class Recurring: Object {
     @objc dynamic var recuringname = ""
     
     override static func primaryKey() -> String? {
-              return "incentiveId"
+              return "recuringid"
           }
     
 }

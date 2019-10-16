@@ -166,7 +166,7 @@ class RestClient: NSObject {
                 
                 
                 request.httpBody = try! JSONSerialization.data(withJSONObject:arryParam.rawValue)
-                
+            
                 Alamofire.request(request)
                     .responseJSON { response in
                         switch response.result {
@@ -203,7 +203,7 @@ class RestClient: NSObject {
                 request.httpMethod = "POST"
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.setValue("Bearer" + " " + access_token!, forHTTPHeaderField: "Authorization")
-        print("heahher is is---\(access_token)")
+        print("arryParam is is---\(arryParam)")
                 request.httpBody = try! JSONSerialization.data(withJSONObject:arryParam.rawValue)
                 
                 Alamofire.request(request)

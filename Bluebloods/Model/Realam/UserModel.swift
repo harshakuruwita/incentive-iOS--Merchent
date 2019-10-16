@@ -15,6 +15,7 @@ class UserModel: Object {
     @objc dynamic var updateAt = NSDate()
     @objc dynamic var token = ""
     @objc dynamic var storeId = 0
+    @objc dynamic var storeName = ""
     @objc dynamic var salesId = ""
     @objc dynamic var regionId = 0
     @objc dynamic var organizationId = 0
