@@ -237,8 +237,36 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
    
         
         if let someInt = kpitTableData[indexPath.row]["specialPlace"].int{
+            
             let cell:DashbordPointsCell = tableView.dequeueReusableCell(withIdentifier: "DashbordPointsCell") as! DashbordPointsCell
             
+            let baronevalue = kpitTableData[indexPath.row]["value1"].intValue
+            let bartwovalue = kpitTableData[indexPath.row]["value2"].intValue
+            let baroneColour = kpitTableData[indexPath.row]["color1"].stringValue
+            let bartwoColour = kpitTableData[indexPath.row]["color2"].stringValue
+            let ShortName = kpitTableData[indexPath.row]["ShortName"].stringValue
+            
+            cell.batOne.progressValue = CGFloat(baronevalue)
+            cell.barTwo.progressValue = CGFloat(bartwovalue)
+            cell.frontValue.text = String(someInt)
+            
+            cell.batOne.barColor = UIColor().colourHex(hexColour: baroneColour)
+            cell.barTwo.barColor = UIColor().colourHex(hexColour: bartwoColour)
+            cell.cellHeader.text = ShortName
+            
+            
+            let text = NSMutableAttributedString()
+            text.append(NSAttributedString(string: "Your points  ", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14.0)]))
+            text.append(NSAttributedString(string: String(baronevalue), attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 26, weight: UIFont.Weight.heavy)]))
+            cell.barOneValue.attributedText = text
+            
+            let texttwo = NSMutableAttributedString()
+            texttwo.append(NSAttributedString(string: "Leader's points  ", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14.0)]))
+            texttwo.append(NSAttributedString(string: String(bartwovalue), attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 26, weight: UIFont.Weight.heavy)]))
+            cell.barTwoValue.attributedText = texttwo
+            
+            
+
             return cell
         } else {
             let cell:DashbordBonuASPCell = tableView.dequeueReusableCell(withIdentifier: "DashbordBonuASPCell") as! DashbordBonuASPCell
@@ -248,8 +276,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
             let baroneColour = kpitTableData[indexPath.row]["color1"].stringValue
             let bartwoColour = kpitTableData[indexPath.row]["color2"].stringValue
           
-            
-            
+
             cell.achementHeadder.text = kpitTableData[indexPath.row]["LongName"].stringValue
             cell.progressBarone.progressValue = CGFloat(baronevalue)
             cell.progressbarTwo.progressValue = CGFloat(bartwovalue)

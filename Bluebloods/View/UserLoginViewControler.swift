@@ -32,7 +32,7 @@ class UserLoginViewControler: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         createGradientLayer()
-        loginSuccessView.isHidden = true
+        //loginSuccessView.isHidden = true
         // Do any additional setup after loading the view.
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))

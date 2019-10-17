@@ -7,9 +7,23 @@
 //
 
 import UIKit
+import LinearProgressBar
 
 class DashbordPointsCell: UITableViewCell {
 
+    @IBOutlet weak var batOne: LinearProgressBar!
+    
+    @IBOutlet weak var barTwo: LinearProgressBar!
+    
+    @IBOutlet weak var barOneValue: UILabel!
+    @IBOutlet weak var barTwoValue: UILabel!
+    @IBOutlet weak var frontValue: UILabel!
+    
+    @IBOutlet weak var cellHeader: UILabel!
+    
+    
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
