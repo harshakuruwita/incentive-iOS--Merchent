@@ -126,7 +126,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
             storeManagerSepataror.isHidden = false
             storeManagerTabBar.isHidden = false
             storeButton.setTitle(storeName,for: .normal)
-            self.kpiView.frame.origin.y = 198
+            
         }else{
             storeManagerSepataror.isHidden = true
             storeManagerTabBar.isHidden = true
