@@ -18,6 +18,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var filterbarLogo: UIImageView!
     @IBOutlet weak var navigationBarUiView: UIView!
     
+    @IBOutlet weak var filterbarHolder: UIView!
     @IBOutlet weak var nodataView: UIView!
     @IBOutlet weak var storeManagerTable: UITableView!
     
@@ -85,6 +86,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
         filterbarLogo.layer.cornerRadius = filterbarLogo.frame.height / 2
         filterbarLogo.clipsToBounds = true
         colourSwitcher()
+        loadIncentive()
         getIncentiveFilter()
         storeManagerTable.separatorStyle = .none
         #if targetEnvironment(simulator)
@@ -124,6 +126,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
             storeManagerSepataror.isHidden = false
             storeManagerTabBar.isHidden = false
             storeButton.setTitle(storeName,for: .normal)
+            self.kpiView.frame.origin.y = 198
         }else{
             storeManagerSepataror.isHidden = true
             storeManagerTabBar.isHidden = true
@@ -305,20 +308,14 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
             cell.targetArHeader.attributedText = textTarget
             
           //  cell.targetArHeader.frame.origin.x = CGFloat((targetValue as NSString).floatValue)
-            
-           
+
             cell.targetArHeader.frame.origin.x = 300
             cell.yorArHeadder.frame.origin.x = 300
-            
-            
+
             return cell
         }
         
-     
-        
     }
-    
-   
     
     func colourSwitcher() {
         navigationBarUiView.layer.backgroundColor = UIColor().colour1()
@@ -326,7 +323,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
         gradientLayer = CAGradientLayer()
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.0)
-        gradientLayer.frame = self.filterbarUIView.bounds
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: self.filterbarUIView.frame.width + 200, height: self.filterbarUIView.frame.height)
         gradientLayer.colors = [UIColor().colour2(), UIColor().colour1()]
         self.filterbarUIView.layer.addSublayer(gradientLayer)
     }
@@ -363,9 +360,16 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
                    incentiveArry.append(allIncentives.incentiveName)
                    incentiveidArry.append(allIncentives.incentiveId)
                }
-        selectedincentiveId = self.incentiveidArry[0]
-        incentiveLbl.text = incentiveArry[0]
-        loadRecuring()
+        
+        if(self.incentiveidArry.count > 0){
+            selectedincentiveId = self.incentiveidArry[0]
+            incentiveLbl.text = incentiveArry[0]
+            loadRecuring()
+        }
+       
+        
+        
+        
     }
     
     
@@ -456,7 +460,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
     func loadStoreKpiData(salsesId:String) {
         let uri = "\(APPURL.fetchKpiData)\(selectedincentiveId)&selectPeriod=\(selectedRecuringType)&salesId=\(salsesId)&StartDate=\(selectedTimeStart)&EndDate=\(selectedTimend)&targetForStore=true"
             
-            
+            print(uri)
         
 
         RestClient.makeGetRequstWithToken(url: uri, delegate: self, requestFinished: #selector(self.requestFinishedFetchKpi), requestFailed: #selector(self.requestFailedfec), tag: 1)
@@ -468,6 +472,8 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
             
            let uri = "\(APPURL.fetchKpiData)\(selectedincentiveId)&selectPeriod=\(selectedRecuringType)&StartDate=\(selectedTimeStart)&EndDate=\(selectedTimend)"
        
+        
+        print(uri)
         
         RestClient.makeGetRequstWithToken(url: uri, delegate: self, requestFinished: #selector(self.requestFinishedFetchKpiIndividual), requestFailed: #selector(self.requestFailedfec), tag: 1)
         
@@ -544,6 +550,23 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
                 
                 
                 
+            }else if(code == 401){
+                let alert = UIAlertController(title: "Session expired, please enter username and password again", message: "", preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+                    let realm = try! Realm()
+                    try! realm.write {
+                        realm.deleteAll()
+                    }
+                    
+                    UserDefaults.standard.set(false, forKey: "isLogin")
+                    Switcher.updateRootVC()
+                    
+                    
+                }))
+                
+                
+                self.present(alert, animated: true)
             }
             
         } catch let error {
@@ -638,5 +661,38 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
         
     }
     ///
+    
+    
+    func saveToJsonFile(fileName:String,json:JSON) {
+        // Get the url of Persons.json in document directory
+        guard let documentDirectoryUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        let fileUrl = documentDirectoryUrl.appendingPathComponent(fileName)
+        
+        let personArray = json
+        
+        // Transform array into data and save it into file
+        do {
+            let data = try JSONSerialization.data(withJSONObject: personArray, options: [])
+            try data.write(to: fileUrl, options: [])
+        } catch {
+            print(error)
+        }
+    }
+    
+    func readJson(fileName:String, completion: (JSON) -> ()) {
+        
+        var jsonArry:JSON?
+        guard let documentsDirectoryUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        let fileUrl = documentsDirectoryUrl.appendingPathComponent(fileName)
+        
+        do {
+            let data = try Data(contentsOf: fileUrl, options: [])
+            guard let personArray = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: [String: String]]] else { return }
+            jsonArry = JSON(personArray)
+        } catch {
+            print(error)
+        }
+        completion(jsonArry!)
+    }
 }
 

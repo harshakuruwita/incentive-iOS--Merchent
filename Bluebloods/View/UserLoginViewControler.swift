@@ -26,7 +26,7 @@ class UserLoginViewControler: UIViewController {
     @IBOutlet weak var passwordTextFild: BorderdTextFild!
     
     
-    @IBOutlet weak var loginSuccessView: CurvedView!
+
     @IBOutlet weak var dataFetchActivitiIndicator: NVActivityIndicatorView!
     
     override func viewDidLoad() {
@@ -105,8 +105,8 @@ class UserLoginViewControler: UIViewController {
             if(userObj["response"]["code"].int == 200){
                 
                 
-                loginSuccessView.isHidden = false
-                dataFetchActivitiIndicator.startAnimating()
+                //loginSuccessView.isHidden = false
+              //  dataFetchActivitiIndicator.startAnimating()
                 fetchUserData(access_token: userObj["response"]["data"]["access_token"].stringValue)
                 
             }else{
@@ -195,7 +195,7 @@ class UserLoginViewControler: UIViewController {
                 activitiIndicator.stopAnimating()
                 let banner = NotificationBanner(title: "Sorry", subtitle: "System Error ",  style: .danger)
                 banner.show()
-                loginSuccessView.isHidden = true
+  
             }
             
         } catch let error {

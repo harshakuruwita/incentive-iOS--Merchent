@@ -17,6 +17,7 @@ class UserRegistation: UIViewController {
     @IBOutlet weak var gradientView: UIView!
     var gradientLayer: CAGradientLayer!
     
+    @IBOutlet weak var contentScroleView: UIScrollView!
     @IBOutlet weak var emailAdderssFild: BorderdTextFild!
     @IBOutlet weak var dropDownButton: UIButton!
     @IBOutlet weak var storeButton: UIButton!
@@ -50,6 +51,7 @@ class UserRegistation: UIViewController {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         // Do any additional setup after loading the view.
+       // contentScroleView.bounces = contentScroleView.contentOffset.y < contentScroleView.contentSize.height - contentScroleView.frame.height
         storeDropdownHolder.isHidden = true
         dropDownStore.width = UIScreen.main.bounds.width
         dropDownRole.selectionAction = { [unowned self] (index: Int, item: String) in

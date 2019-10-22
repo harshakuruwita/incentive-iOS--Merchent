@@ -17,9 +17,7 @@ class PasswordReset: UIViewController {
     var gradientLayer: CAGradientLayer!
     
     @IBOutlet weak var activitiIndicator: NVActivityIndicatorView!
-    
 
-    
     @IBOutlet weak var userNameTextFild: BorderdTextFild!
 
     @IBOutlet weak var dataFetchActivitiIndicator: NVActivityIndicatorView!

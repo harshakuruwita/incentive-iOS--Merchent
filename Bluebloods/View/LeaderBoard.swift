@@ -27,7 +27,7 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     @IBOutlet weak var filterBarLogoLB: UIImageView!
     
     @IBOutlet weak var storeUiView: UIView!
-    @IBOutlet weak var individualUiView: UIView!
+  
     
     @IBOutlet weak var storeButton: UIButton!
     @IBOutlet weak var individualButton: UIButton!
@@ -90,14 +90,15 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
        let storeLogoPath  = organizationTheme[0].logoSmall
         filterBarLogoLB.sd_setImage(with: URL(string: storeLogoPath), placeholderImage: UIImage(named: "placeholder.png"))
         
-        storeButton.backgroundColor = .clear
-        storeButton.layer.cornerRadius = 18
-        storeButton.layer.borderWidth = 1.5
+        individualButton.backgroundColor = .clear
+        individualButton.layer.cornerRadius = 18
+        individualButton.layer.borderWidth = 1.5
 
         storeButton.setTitleColor(UIColor().colourHex1(), for: .normal)
         individualButton.setTitleColor(UIColor().colourHex1(), for: .normal)
-       loadIncentive()
-        storeButton.layer.borderColor = UIColor().colour1()
+        individualButton.layer.borderColor = UIColor().colour1()
+        loadIncentive()
+        
         colourSwitcher()
         
         incentivePicker.selectionAction = { [unowned self] (index: Int, item: String) in
@@ -144,7 +145,6 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }else{
             
             storeManagerTab.isHidden = true
-            self.individualUiView.frame.origin.y = 198
             self.storeUiView.frame.origin.y = 198
             
             salesId = ""
@@ -206,10 +206,14 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         storeButton.layer.cornerRadius = 18
         storeButton.layer.borderWidth = 1.5
         storeButton.layer.borderColor = UIColor().colour1()
-        self.storeUiView.isHidden = false
-        self.individualUiView.isHidden = true
+   
         leaderBordTableData = leaderBordTableStoreData
+        
+        print(leaderBordTableData)
         leaderbordTable.reloadData()
+        
+        
+        
         storeType = true
     }
     
@@ -221,9 +225,9 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         individualButton.layer.cornerRadius = 18
         individualButton.layer.borderWidth = 1.5
         individualButton.layer.borderColor = UIColor().colour1()
-         self.individualUiView.isHidden = false
-        self.storeUiView.isHidden = true
+
         leaderBordTableData = leaderBordTableIndividualData
+        print(leaderBordTableData)
         leaderbordTable.reloadData()
         storeType = false
         
@@ -235,7 +239,7 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         gradientLayer = CAGradientLayer()
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.0)
-        gradientLayer.frame = gradianentView.bounds
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: self.gradianentView.frame.width + 200, height: self.gradianentView.frame.height)
         gradientLayer.colors = [UIColor().colour2(), UIColor().colour1()]
         self.gradianentView.layer.addSublayer(gradientLayer)
     }
@@ -257,9 +261,11 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             incentiveArry.append(allIncentives.incentiveName)
             incentiveidArry.append(allIncentives.incentiveId)
         }
-        selectedincentiveId = self.incentiveidArry[0]
-        incentiveLbl.text = incentiveArry[0]
-        loadRecuring()
+        if(self.incentiveidArry.count > 0){
+            selectedincentiveId = self.incentiveidArry[0]
+            incentiveLbl.text = incentiveArry[0]
+            loadRecuring()
+        }
     }
     
     
