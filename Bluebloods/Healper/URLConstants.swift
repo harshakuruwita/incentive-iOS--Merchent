@@ -12,7 +12,8 @@ struct APPURL {
     
     private struct Domains {
         static let Globaluri = "https://www.dev.linkedassets.com"
-        static let Localuri = "https://dev-incentive-api-vc.azurewebsites.net/api/v1/"
+       // static let Localuri = "https://dev-incentive-api-vc.azurewebsites.net/api/v1/"
+        static let Localuri = "https://incentive-api-prod.azurewebsites.net/api/v1/"
         
       //  static let Localuri = "http://192.168.1.9:8080/api/v1/"
      

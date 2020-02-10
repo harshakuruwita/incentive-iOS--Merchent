@@ -101,7 +101,7 @@ class UserLoginViewControler: UIViewController {
         do {
             let userObj = JSON(response.responseObject!)
             
-            print(userObj)
+            
             if(userObj["response"]["code"].int == 200){
                 
                 
@@ -124,6 +124,7 @@ class UserLoginViewControler: UIViewController {
         
         do {
             let userObj = JSON(response.responseObject!)
+            print(userObj)
             activitiIndicator.stopAnimating()
             if(userObj["response"]["code"].int == 200){
                
@@ -193,7 +194,7 @@ class UserLoginViewControler: UIViewController {
                 
             }else{
                 activitiIndicator.stopAnimating()
-                let banner = NotificationBanner(title: "Sorry", subtitle: "System Error ",  style: .danger)
+                let banner = NotificationBanner(title: "Sorry", subtitle: "Error - E43",  style: .danger)
                 banner.show()
   
             }
