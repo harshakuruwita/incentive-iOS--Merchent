@@ -22,11 +22,67 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print(Realm.Configuration.defaultConfiguration.fileURL!)
         IQKeyboardManager.shared.enable = true
         Switcher.updateRootVC()
-        
+        registerForPushNotifications()
         return true
        
     }
 
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+    
+        let isLogin = UserDefaults.standard.bool(forKey: "isLogin")
+
+              if(isLogin){
+                 getIncentiveFilter()
+              }else{
+                print("not Loged")
+              }
+        
+        
+    }
+    
+    func getIncentiveFilter() {
+        
+       
+        RestClient.makeGetRequstWithToken(url: APPURL.getFilter, delegate: self, requestFinished: #selector(self.requestFinishedFetch), requestFailed: #selector(self.requestFailedfec), tag: 1)
+        
+    }
+    ////////
+    
+     @objc func requestFinishedFetch(response:ResponseSwift){
+         
+         do {
+             
+             let userObj = JSON(response.responseObject!)
+             let code = userObj["response"]["code"].intValue
+                   print(code)
+            if(code == 200){
+                
+            }else if(code == 401){
+              let realm = try! Realm()
+                                   try! realm.write {
+                                       realm.deleteAll()
+                                   }
+                                   
+                                   UserDefaults.standard.set(false, forKey: "isLogin")
+                                   Switcher.updateRootVC()
+            }
+           
+             
+            
+
+            
+              
+         } catch let error {
+             print(error)
+         }
+         
+     }
+
+     @objc func requestFailedfec(response:ResponseSwift){
+       
+     }
+    /////
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -37,9 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    }
+  
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
@@ -102,17 +156,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         fetchCompletionHandler completionHandler:
         @escaping (UIBackgroundFetchResult) -> Void) {
         
-     guard application.applicationState == .active else { return }
-           guard let alertDict = ((userInfo["aps"] as? NSDictionary)?.value(forKey: "alert")) as? NSDictionary,
-               let title = alertDict["title"] as? String,
-               let body = alertDict["body"] as? String
-               else { return }
-       
-           let alertController = UIAlertController(title: title, message: body, preferredStyle: .alert)
-           let okAct = UIAlertAction(title: "Ok", style: .default, handler: nil)
-           alertController.addAction(okAct)
-           self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
-           completionHandler(UIBackgroundFetchResult.noData)
+         print("SS-99")
+        
+     guard application.applicationState == .active else {
+        print("SS-990")
+        return }
+          
+        ///
+        ///if let aps = userInfo["aps"] as? NSDictionary {
+       if let aps = userInfo["aps"] as? NSDictionary {
+        
+                if let alert = aps["alert"] as? NSDictionary {
+             print(alert)
+                } else if let alert = aps["alert"] as? NSString {
+                    let alertController = UIAlertController(title: "Message", message: alert as String, preferredStyle: .alert)
+                               let okAct = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                               alertController.addAction(okAct)
+                               self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
+                               completionHandler(UIBackgroundFetchResult.noData)
+                    print(alert)
+                }
+            }
+        ////
+        
+        
+        
+
     }
     
     

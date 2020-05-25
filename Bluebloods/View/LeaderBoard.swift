@@ -12,12 +12,18 @@ import DropDown
 import SwiftyJSON
 import RealmSwift
 import RealmSwift
+import NVActivityIndicatorView
 
 class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource  {
 
     @IBOutlet weak var incentiveLbl: UILabel!
     @IBOutlet weak var recurungNameLbl: UILabel!
     @IBOutlet weak var timePeriodLbl: UILabel!
+    
+    @IBOutlet weak var activityIndicator: NVActivityIndicatorView!
+    
+    @IBOutlet weak var noDataView: UIView!
+    
     
     @IBOutlet weak var leaderbordTable: UITableView!
     
@@ -55,6 +61,7 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var recuringidArry:[Int] = []
     var recuringTypeArry:[String] = []
     var recuringNameArry:[String] = []
+     var timePeriodendIdArry:[Int] = []
     var kpiDataArry:JSON = []
     var selectedincentiveId = 0
     var selectedRecuringId = 0
@@ -67,16 +74,18 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var storeName = ""
     var salesId = ""
     var storeType = false
+     var selectedTimPeriod_ID = 0
     
-    var leaderBordTableData:JSON = []
+    var leaderBordTableJSONData:JSON = []
     var leaderBordTableIndividualData:JSON = []
     var leaderBordTableStoreData:JSON = []
+    var colourJsonArry:JSON = []
     
     var timePeriodArry:[String] = []
     var timePeriodstartArry:[String] = []
     var timePeriodendArry:[String] = []
     var leaderBordDataArry:JSON = []
-    
+    var storeID = 0
     var userData : Results<UserModel>?
     
     override func viewDidLoad() {
@@ -89,14 +98,14 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         let organizationTheme = realm.objects(OrganizationTheme.self)
        let storeLogoPath  = organizationTheme[0].logoSmall
         filterBarLogoLB.sd_setImage(with: URL(string: storeLogoPath), placeholderImage: UIImage(named: "placeholder.png"))
-        
+        noDataView.isHidden = true
         individualButton.backgroundColor = .clear
         individualButton.layer.cornerRadius = 18
         individualButton.layer.borderWidth = 1.5
 
-        storeButton.setTitleColor(UIColor().colourHex1(), for: .normal)
-        individualButton.setTitleColor(UIColor().colourHex1(), for: .normal)
-        individualButton.layer.borderColor = UIColor().colour1()
+      //  storeButton.setTitleColor(UIColor().colourHex1(), for: .normal)
+     //   individualButton.setTitleColor(UIColor().colourHex1(), for: .normal)
+        individualButton.layer.borderColor = UIColor(red:0.61, green:0.84, blue:0.82, alpha:1.0).cgColor
         loadIncentive()
         
         colourSwitcher()
@@ -115,7 +124,7 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             self.selectedRecuringId = (self.recuringidArry[index])
             self.selectedRecuringType = self.recuringTypeArry[index]
             self.recurungNameLbl.text = self.recuringNameArry[index]
-            self.loadRecuring()
+            self.loadTimePeriod()
         }
         
         
@@ -126,7 +135,8 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             self.selectedTimePeriod = self.timePeriodArry[index]
             self.selectedTimeStart = self.timePeriodstartArry[index]
             self.selectedTimend = self.timePeriodendArry[index]
-            self.getLeaderBordData()
+            self.selectedTimPeriod_ID = self.timePeriodendIdArry[index]
+            self.getLeaderBordIndividualData()
         }
         
         
@@ -134,20 +144,21 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         for alluserData in userData!  {
             userRole = alluserData.userRole
             salesId = alluserData.salesId
+            storeID = alluserData.storeId
             storeName = alluserData.storeName
         }
         
         if(userRole == "STORE_MANAGER"){
            
             storeManagerTab.isHidden = false
-            storeButton.setTitle(storeName,for: .normal)
+            storeButton.setTitle("Store",for: .normal)
             
         }else{
             
             storeManagerTab.isHidden = true
             self.storeUiView.frame.origin.y = 198
             
-            salesId = ""
+          //  salesId = ""
         }
     }
     
@@ -180,18 +191,55 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         tableView.separatorStyle = .none
-        return leaderBordTableData.count
+        print("Table data count==\(leaderBordTableJSONData)")
+        return leaderBordTableJSONData.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 65
+        return 60
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:LeaderBordStoreCell = tableView.dequeueReusableCell(withIdentifier: "LeaderBordStoreCell") as! LeaderBordStoreCell
-        cell.positionLbl.text = leaderBordTableData[indexPath.row]["position"].stringValue
-        cell.nameLbl.text = leaderBordTableData[indexPath.row]["SalesRep"].stringValue
-        cell.pointsLbl.text = leaderBordTableData[indexPath.row]["total"].stringValue
+        cell.positionLbl.text = leaderBordTableJSONData[indexPath.row]["Position"].stringValue
+        cell.nameLbl.text = leaderBordTableJSONData[indexPath.row]["User Id"].stringValue
+        print()
+        cell.pointsLbl.text = leaderBordTableJSONData[indexPath.row]["Points"].stringValue
+        
+        
+       print("salesId-\(salesId)")
+         print("salesId-\(leaderBordTableJSONData[indexPath.row]["User Id"].stringValue)")
+        
+        print("storeID-\(storeID)")
+                print("storeID-\(leaderBordTableJSONData[indexPath.row]["StorePrimaryId"].int)")
+        
+        if(salesId == leaderBordTableJSONData[indexPath.row]["User Id"].stringValue || storeID == leaderBordTableJSONData[indexPath.row]["StorePrimaryId"].int ){
+            
+              let colourJson = colourJsonArry.stringValue
+            if (colourJson == "" || colourJson == "{}"){
+            cell.roundUiView.backgroundColor = UIColor().colourHex(hexColour: "#8f6917")
+            
+            }else{
+               let result_1 = colourJson.split(separator: "#")
+                let result_2 = result_1[2].split(separator: "\"")
+               
+                cell.roundUiView.backgroundColor = UIColor().colourHex(hexColour: "#\(result_2[0])")
+            }
+            
+        }else{
+            let colourJson = colourJsonArry.stringValue
+            if (colourJson == "" || colourJson == "{}"){
+                       cell.roundUiView.backgroundColor = UIColor().colourHex(hexColour: "#9BD6D1")
+                       
+                       }else{
+                           let result_1 = colourJson.split(separator: "#")
+                           let result_2 = result_1[1].split(separator: "\"")
+                           cell.roundUiView.backgroundColor = UIColor().colourHex(hexColour: "#\(result_2[0])")
+                       }
+        }
+        
+        
+        
         return cell
         }
     
@@ -205,14 +253,20 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         storeButton.backgroundColor = .clear
         storeButton.layer.cornerRadius = 18
         storeButton.layer.borderWidth = 1.5
-        storeButton.layer.borderColor = UIColor().colour1()
+        storeButton.layer.borderColor = UIColor(red:0.61, green:0.84, blue:0.82, alpha:1.0).cgColor
    
-        leaderBordTableData = leaderBordTableStoreData
+        leaderBordTableJSONData = leaderBordTableStoreData
         
-        print(leaderBordTableData)
-        leaderbordTable.reloadData()
-        
-        
+        if(leaderBordTableJSONData.count > 0){
+            noDataView.isHidden = true
+         
+             leaderbordTable.reloadData()
+        }else{
+            noDataView.isHidden = false
+            leaderbordTable.reloadData()
+        }
+       
+       
         
         storeType = true
     }
@@ -224,11 +278,18 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         individualButton.backgroundColor = .clear
         individualButton.layer.cornerRadius = 18
         individualButton.layer.borderWidth = 1.5
-        individualButton.layer.borderColor = UIColor().colour1()
+        individualButton.layer.borderColor = UIColor(red:0.61, green:0.84, blue:0.82, alpha:1.0).cgColor
 
-        leaderBordTableData = leaderBordTableIndividualData
-        print(leaderBordTableData)
-        leaderbordTable.reloadData()
+        leaderBordTableJSONData = leaderBordTableIndividualData
+      
+      
+         if(leaderBordTableJSONData.count > 0){
+                   noDataView.isHidden = true
+                    leaderbordTable.reloadData()
+               }else{
+                   noDataView.isHidden = false
+            leaderbordTable.reloadData()
+               }
         storeType = false
         
     }
@@ -257,7 +318,7 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         incentives  = try! Realm().objects(Incentive.self)
         
         for allIncentives in incentives!  {
-            print(allIncentives.incentiveName)
+           
             incentiveArry.append(allIncentives.incentiveName)
             incentiveidArry.append(allIncentives.incentiveId)
         }
@@ -295,39 +356,48 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     func loadTimePeriod(){
         
-        TimePeriodss  = try! Realm().objects(TimePeriods.self).filter("recuringid = \(self.selectedRecuringId)")
+        TimePeriodss  = try! Realm().objects(TimePeriods.self).filter("recuringid = \(self.selectedRecuringId) AND incentiveId = \(selectedincentiveId)")
+        
         timePeriodArry.removeAll()
+        timePeriodstartArry.removeAll()
+        timePeriodendArry.removeAll()
+        timePeriodendIdArry.removeAll()
         
         for allTimePeriodss in TimePeriodss!  {
             timePeriodArry.append(allTimePeriodss.periodName)
             timePeriodstartArry.append(allTimePeriodss.StartDate)
-                       timePeriodendArry.append(allTimePeriodss.EndDate)
+            timePeriodendArry.append(allTimePeriodss.EndDate)
+            timePeriodendIdArry.append(allTimePeriodss.timeperiodid)
             
         }
-        
+          if(timePeriodArry.count > 0){
         timePeriodLbl.text = timePeriodArry[0]
         self.selectedTimePeriod = timePeriodArry[0]
         self.selectedTimeStart = self.timePeriodstartArry[0]
-              self.selectedTimend = self.timePeriodendArry[0]
-        getLeaderBordData()
+        self.selectedTimend = self.timePeriodendArry[0]
+        self.selectedTimPeriod_ID = self.timePeriodendIdArry[0]
+        getLeaderBordIndividualData()
+        }
     }
     
-    func getLeaderBordData() {
+    func getLeaderBordIndividualData() {
         
-       
-        let uri = "\(APPURL.fetchLeaderBordData)\(selectedincentiveId)&selectPeriod=\(selectedRecuringType)&StartDate=\(selectedTimeStart)&EndDate=\(selectedTimend)&moduleType=rep&tableDisplay=true"
+        activityIndicator.startAnimating()
+        let uri = "\(APPURL.fetchIndividualLeaderBordData)\(selectedincentiveId)&selectPeriod=\(selectedRecuringType)&StartDate=\(selectedTimeStart)&EndDate=\(selectedTimend)&PeriodId=\(selectedTimPeriod_ID)&moduleType=rep&tableDisplay=false"
         
         RestClient.makeGetRequstWithToken(url: uri, delegate: self, requestFinished: #selector(self.requestFinishedFetchLeaderbord), requestFailed: #selector(self.requestFailedSync), tag: 1)
         
-        
+        print("09=url: \(uri)")
+         
         
     }
     
-    func getLeaderBordStoreData(salsesId:String) {
+    func getLeaderBordStoreData() {
         
-        
-        let uri = "\(APPURL.fetchLeaderBordData)\(selectedincentiveId)&selectPeriod=\(selectedRecuringType)&StartDate=\(selectedTimeStart)&EndDate=\(selectedTimend)&moduleType=rep&tableDisplay=true"
-        
+        activityIndicator.startAnimating()
+        let uri = "\(APPURL.fetchStoreLeaderBordData)\(selectedincentiveId)&selectPeriod=\(selectedRecuringType)&StartDate=\(selectedTimeStart)&EndDate=\(selectedTimend)&PeriodId=\(selectedTimPeriod_ID)&moduleType=rep&tableDisplay=false"
+
+        print("10=url: \(uri)")
         RestClient.makeGetRequstWithToken(url: uri, delegate: self, requestFinished: #selector(self.requestFinishedFetchStoreLeaderBord), requestFailed: #selector(self.requestFailedSync), tag: 1)
         
         
@@ -338,30 +408,31 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     @objc func requestFinishedFetchLeaderbord(response:ResponseSwift){
         
         do {
+            activityIndicator.stopAnimating()
+            getLeaderBordStoreData()
             let userObj = JSON(response.responseObject!)
-            leaderBordTableIndividualData = userObj["response"]["dataArr"]["TableBody"]
-           
+            leaderBordTableIndividualData = userObj["response"]["dataArr"]
+           colourJsonArry = userObj["response"]["incentive"][0]["ColorSettings"]
+            print("Table Data -- \(leaderBordTableIndividualData)")
             
-            
-            if(userRole == "STORE_MANAGER"){
-               // loadStoreKpiData(salsesId:salesId)
-            }
-            
-            if(storeType){
-                
+          leaderBordTableJSONData = leaderBordTableIndividualData
+        
+            if(leaderBordTableJSONData.count > 0){
+                noDataView.isHidden = true
+               
             }else{
-                leaderBordTableData = leaderBordTableIndividualData
+                noDataView.isHidden = false
             }
+            
             leaderbordTable.reloadData()
-           
-            
-            
             
             
             
     
         } catch let error {
             print(error)
+            activityIndicator.stopAnimating()
+            noDataView.isHidden = false
         }
         
     }
@@ -370,18 +441,25 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     @objc func requestFinishedFetchStoreLeaderBord(response:ResponseSwift){
         
         do {
+            activityIndicator.stopAnimating()
             let userObj = JSON(response.responseObject!)
             
             let code = userObj["response"]["code"].intValue
             
             if(code == 200){
-                leaderBordTableStoreData =  userObj["response"]["dataArr"]["TableBody"]
+                leaderBordTableStoreData =  userObj["response"]["dataArr"]
                 
             
                 
                 
                 if(storeType){
-                    leaderBordTableData = leaderBordTableStoreData
+                    leaderBordTableJSONData = leaderBordTableStoreData
+                    if(leaderBordTableJSONData.count > 0){
+                                   noDataView.isHidden = true
+                                  
+                               }else{
+                                   noDataView.isHidden = false
+                               }
                     leaderbordTable.reloadData()
                 }else{
                     
@@ -389,6 +467,7 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             }
             
         } catch let error {
+            activityIndicator.stopAnimating()
             print(error)
         }
         
@@ -398,10 +477,11 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     @objc func requestFinishedFetch(response:ResponseSwift){
     
     do {
+        activityIndicator.stopAnimating()
         let userObj = JSON(response.responseObject!)
         let incentiveJson = userObj["response"]["Periods"]
         
-        print("my008 \(userObj)")
+        
         
         
         
@@ -485,6 +565,7 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
          }
     
     @objc func requestFailedSync(response:ResponseSwift){
+        activityIndicator.stopAnimating()
            
        }
 

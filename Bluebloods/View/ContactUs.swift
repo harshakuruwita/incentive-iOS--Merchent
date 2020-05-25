@@ -27,6 +27,7 @@ class ContactUs: UIViewController,UITextFieldDelegate,UITextViewDelegate {
         senderEmail.layer.borderWidth = 0.7
         senderEmail.layer.borderColor = UIColor.gray.cgColor
         messageTextFild.delegate = self
+        senderEmail.delegate = self
          self.updateCharacterCount()
         senderEmail.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: senderEmail.frame.height))
         senderEmail.leftViewMode = .always
@@ -66,11 +67,11 @@ class ContactUs: UIViewController,UITextFieldDelegate,UITextViewDelegate {
         
         if(messageHeadder == ""){
             
-            let banner = NotificationBanner(title: "Sorry", subtitle: "Please enter essage title ",  style: .danger)
+            let banner = NotificationBanner(title: "Sorry", subtitle: "Title is required!",  style: .danger)
             banner.show()
             
         }else if(message == ""){
-            let banner = NotificationBanner(title: "Sorry", subtitle: "Please enter essage ",  style: .danger)
+            let banner = NotificationBanner(title: "Sorry", subtitle: "Message is required!",  style: .danger)
                        banner.show()
             
         }else{
@@ -100,6 +101,16 @@ class ContactUs: UIViewController,UITextFieldDelegate,UITextViewDelegate {
         self.updateCharacterCount()
      }
 
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let textFieldText = textField.text,
+            let rangeOfTextToReplace = Range(range, in: textFieldText) else {
+                return false
+        }
+        let substringToReplace = textFieldText[rangeOfTextToReplace]
+        let count = textFieldText.count - substringToReplace.count + string.count
+        self.titleCount.text = "\((0) + count)/40"
+        return count <= 39
+    }
 
      func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool{
         if(textView == messageTextFild){
@@ -116,7 +127,11 @@ class ContactUs: UIViewController,UITextFieldDelegate,UITextViewDelegate {
             let succsussMessage = userObj["response"]["success"].boolValue
             
             if(succsussMessage){
-                let banner = NotificationBanner(title: "Success", subtitle: "Email has sent ",  style: .success)
+                
+                 senderEmail.text = ""
+                  messageTextFild.text = ""
+                
+                let banner = NotificationBanner(title: "Success", subtitle: "Message successfully sent.",  style: .success)
                 banner.show()
             }else{
                 let banner = NotificationBanner(title: "Sorry", subtitle: "System error",  style: .danger)

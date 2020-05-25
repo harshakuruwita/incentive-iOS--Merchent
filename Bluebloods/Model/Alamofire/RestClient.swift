@@ -47,7 +47,7 @@ class RestClient: NSObject {
           
                   let access_token = UserDefaults.standard.string(forKey: "token")
                         
-                         
+                         print("09=access_token: \(access_token)")
                          
                          let Auth_header: HTTPHeaders = [
                              "Content-Type": "application/json",
@@ -203,7 +203,7 @@ class RestClient: NSObject {
                 request.httpMethod = "POST"
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.setValue("Bearer" + " " + access_token!, forHTTPHeaderField: "Authorization")
-        print("arryParam is is---\(arryParam)")
+        print("access_token! is is---\(access_token!)")
                 request.httpBody = try! JSONSerialization.data(withJSONObject:arryParam.rawValue)
                 
                 Alamofire.request(request)
@@ -230,6 +230,45 @@ class RestClient: NSObject {
             
         }
     
+    
+    
+    class func makeArryPatchRequestWithToken(url:String, arryParam:JSON, delegate:AnyObject, requestFinished:Selector, requestFailed:Selector, tag:Int){
+        
+
+     
+         let requstUri = NSURL(string: url)
+         let access_token = UserDefaults.standard.string(forKey: "token")
+        
+                var request = URLRequest(url: requstUri! as URL)
+                request.httpMethod = "PATCH"
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.setValue("Bearer" + " " + access_token!, forHTTPHeaderField: "Authorization")
+        print("access_token! is is---\(access_token!)")
+                request.httpBody = try! JSONSerialization.data(withJSONObject:arryParam.rawValue)
+                
+                Alamofire.request(request)
+                    .responseJSON { response in
+                        switch response.result {
+                        case .success(let value):
+                            
+                            
+                            let json = JSON(value)
+                            let responseHandler = ResponseSwift()
+                            responseHandler.tag = tag
+                            responseHandler.responseObject = json
+                            _ = delegate.perform(requestFinished, with: responseHandler)
+                        case .failure(let error):
+                            
+                            let responseHandler = ResponseSwift()
+                            responseHandler.tag = tag
+                            _ =  delegate.perform(requestFailed, with: responseHandler)
+                            print(error)
+                        }
+                }
+                
+                
+            
+        }
     
     class func makeDeleteRequst(url:String,  delegate:AnyObject, requestFinished:Selector, requestFailed:Selector, tag:Int){
         

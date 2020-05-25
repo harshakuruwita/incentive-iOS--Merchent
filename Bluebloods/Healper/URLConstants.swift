@@ -11,16 +11,17 @@ import Foundation
 struct APPURL {
     
     private struct Domains {
-        static let Globaluri = "https://www.dev.linkedassets.com"
-       // static let Localuri = "https://dev-incentive-api-vc.azurewebsites.net/api/v1/"
-        static let Localuri = "https://incentive-api-prod.azurewebsites.net/api/v1/"
+      //  static let Globaluri = "https://www.dev.linkedassets.com"
+     //  static let Localuri = "https://incentive-api-prod.azurewebsites.net/api/v1/"
+       static let Localuri = "https://incentive-api-dev.azurewebsites.net/api/v1/"
         
-      //  static let Localuri = "http://192.168.1.9:8080/api/v1/"
-     
+        static let organizationUri = "https://incentive-app-module-uat.azurewebsites.net/"
+     //   static let organizationUri = "https://2degrees.pcincentives.co.nz/"
+    // static let organizationUri = "https://bluebloods-uat.pcincentives.co.nz/"
     }
     
     
-    private  static let GlobalDomain = Domains.Globaluri
+//    private  static let GlobalDomain = Domains.Globaluri
     private  static let LocalDomain = Domains.Localuri
   
     
@@ -50,7 +51,7 @@ struct APPURL {
     }
     
     static var sendToken: String {
-          return LocalDomain  + "message/mobile_data"
+          return LocalDomain  + "merchant/message/mobile_data"
       }
     
     static var resetPassword: String {
@@ -61,11 +62,36 @@ struct APPURL {
         return LocalDomain  + "user/kpi/tbl/result?incentivefield="
     }
     
-    static var fetchLeaderBordData: String {
-        return LocalDomain  + "user/kpi/tbl/result?incentivefield="
+    static var fetchStoreDashbord: String {
+           return LocalDomain  + "user/dashboard/store/table?&incentivefield="
+       }
+    
+    static var fetchIndividualDashbord: String {
+              return LocalDomain  + "user/dashboard/salesrep/kpi?&incentivefield="
+          }
+    
+    static var fetchIndividualLeaderBordData: String {
+        return LocalDomain  + "user/mobile/slaesrep/leaderboard?&incentivefield="
+    }
+    
+    static var fetchStoreLeaderBordData: String {
+        return LocalDomain  + "user/mobile/store/leaderboard?&incentivefield="
     }
     
     static var getUsersOfStoremanager: String {
         return LocalDomain  + "user/kpi/tbl/result?incentivefield="
     }
+    
+    static var editUserProfile: String {
+        return LocalDomain  + "merchant/mobile/user/profile"
+    }
+    
+    static var getOrganizationUri: String {
+        return Domains.organizationUri
+    }
+    
+    static var getOrganizationImages: String {
+        return LocalDomain  + "merchant/mobile/assets"
+    }
 }
+

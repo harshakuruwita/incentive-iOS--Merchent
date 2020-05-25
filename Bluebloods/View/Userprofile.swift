@@ -12,37 +12,143 @@ import RealmSwift
 import RealmSwift
 
 class Userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource  {
-
+    
+    @IBOutlet weak var userTable: UITableView!
     @IBOutlet weak var bottomGradientView: UIView!
     @IBOutlet weak var navigationUiView: UIView!
     var gradientLayer: CAGradientLayer!
-    let nameArry = ["Name","Email","Mobile Phone","Home Store","Sales ID"]
+    let nameArry = ["Name","Email","Mobile Phone","Store name","Store ID","Primary SalesID","Secondary Sales ID"]
     var valueArry:[String] = []
     var userData : Results<UserModel>?
-    
+    var secondrySaleIds :[Any] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         colourSwitcher()
+        let nc = NotificationCenter.default
+        userTable.allowsSelection = false
+        nc.addObserver(self, selector: #selector(updateui), name: Notification.Name("UserLoggedIn"), object: nil)
         
-        userData  = try! Realm().objects(UserModel.self)
-        for alluserData in userData!  {
-            valueArry.append("\(alluserData.firstName) \(alluserData.lastName)")
-            valueArry.append(alluserData.email)
-            valueArry.append(alluserData.mobileNo)
-            valueArry.append(alluserData.mobileNo)
-            valueArry.append(alluserData.currentStatus)
-            valueArry.append(alluserData.salesId)
-     
-            
+        userTable.flashScrollIndicators()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            let indexPath = IndexPath(item: 4, section: 0)
+             self.userTable.scrollToRow(at: indexPath, at: .top, animated: true)
+          self.userTable.flashScrollIndicators()
         }
+        
+        fetchUserData()
     }
     
-
+    func fetchUserData() {
+          let access_token = UserDefaults.standard.string(forKey: "token")
+          let uri = APPURL.fetchUserData
+          RestClient.makeGetRequst(url: uri,access_token: access_token!, delegate: self, requestFinished: #selector(self.requestFinishedFetch), requestFailed: #selector(self.requestFailedSync), tag: 1)
+      }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated) // No need for semicolon
+        
+           guard let data = UserDefaults.standard.value(forKey: "salesIdArry") as? Data else { return }
+             
+             let json = JSON(data)
+             if let items = json.array {
+                 for item in items {
+                     if let title = item.string {
+                       
+                         self.secondrySaleIds.append(title)
+                     }
+                 }
+             }
+        var new =  "\(secondrySaleIds)".replacingOccurrences(of: "\"", with: "", options: NSString.CompareOptions.literal, range:nil)
+        
+            
+            
+        userData  = try! Realm().objects(UserModel.self)
+        for alluserData in userData!  {
+            valueArry.append("\(UserDefaults.standard.string(forKey: "firstName")!) \(UserDefaults.standard.string(forKey: "lastName")!)")
+            valueArry.append(alluserData.email)
+            valueArry.append((UserDefaults.standard.string(forKey: "mobilenumber")!) )
+            valueArry.append(alluserData.storeName)
+            valueArry.append(String(alluserData.storeId))
+            valueArry.append(alluserData.salesId)
+            valueArry.append("\(new)")
+            
+            
+        }
+        userTable.reloadData()
+    }
     
     @IBAction func backTap(_ sender: Any) {
         self.dismiss(animated: true)
         
+        
+    }
+    
+    @objc public func updateui(){
+        fetchUserData()
+        secondrySaleIds.removeAll()
+        guard let data = UserDefaults.standard.value(forKey: "salesIdArry") as? Data else { return }
+                 
+                 let json = JSON(data)
+                 if let items = json.array {
+                     for item in items {
+                         if let title = item.string {
+                           
+                             self.secondrySaleIds.append(title)
+                         }
+                     }
+                 }
+        var new =  "\(secondrySaleIds)".replacingOccurrences(of: "\"", with: "", options: NSString.CompareOptions.literal, range:nil)
+             
+        valueArry.removeAll()
+        userData  = try! Realm().objects(UserModel.self)
+        for alluserData in userData!  {
+            valueArry.append("\(UserDefaults.standard.string(forKey: "firstName")!) \(UserDefaults.standard.string(forKey: "lastName")!)")
+            valueArry.append(alluserData.email)
+            valueArry.append((UserDefaults.standard.string(forKey: "mobilenumber")!) )
+            valueArry.append(alluserData.storeName)
+            valueArry.append(String(alluserData.storeId))
+            valueArry.append(alluserData.salesId)
+            valueArry.append("\(new)")
+            
+            
+        }
+        userTable.reloadData()
+    }
+    
+    @IBAction func unwindToThisViewController(segue: UIStoryboardSegue) {
+        valueArry.removeAll()
+        userData  = try! Realm().objects(UserModel.self)
+        for alluserData in userData!  {
+            valueArry.append("\(UserDefaults.standard.string(forKey: "firstName")!) \(UserDefaults.standard.string(forKey: "lastName")!)")
+            valueArry.append(alluserData.email)
+            valueArry.append(alluserData.mobileNo)
+            valueArry.append(alluserData.storeName)
+            valueArry.append(String(alluserData.storeId))
+            valueArry.append(alluserData.salesId)
+            valueArry.append(alluserData.salesId_second)
+            
+            
+        }
+        userTable.reloadData()
+    }
+    
+    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    //    {
+    //        if segue.destination is ProfileEdit
+    //        {
+    //
+    //            self.view.window!.rootViewController?.presentedViewController?.dismiss(animated: true, completion: nil)
+    //
+    //        }
+    //    }
+    
+    @IBAction func contactUsTap(_ sender: Any) {
+        self.dismiss(animated: true)
+        var window: UIWindow?
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let tabBarController = appDelegate.window?.rootViewController as! AppNavigator
+        tabBarController.selectedIndex = 3
         
     }
     
@@ -74,7 +180,7 @@ class Userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.0)
         gradientLayer.frame = self.view.bounds
         gradientLayer.colors = [UIColor().colour2(), UIColor().colour1()]
-       // self.bottomGradientView.insertSublayer(gradientLayer, atIndex: 0)
+        // self.bottomGradientView.insertSublayer(gradientLayer, atIndex: 0)
         self.bottomGradientView.layer.addSublayer(gradientLayer)
     }
     
@@ -86,7 +192,7 @@ class Userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 58
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -97,5 +203,82 @@ class Userprofile: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     ///////////
+    @objc func requestFinishedFetch(response:ResponseSwift){
+          
+          do {
+              let userObj = JSON(response.responseObject!)
+              
+              if(userObj["response"]["code"].int == 200){
+                 
+                 
+                  if(userObj["response"]["code"].int == 200){
+                      
+                      let user = userObj["response"]["data"]["user"]
+                      let salesIds = userObj["response"]["data"]["salesIds"]
+                      let organization = userObj["response"]["data"]["org"]
+                      let organizationTheam = userObj["response"]["data"]["org"]["OrganizationTheme"]
+                      var theamJson = JSON.init(parseJSON:organizationTheam.stringValue)
+                      
+                    
+                      
+                      UserDefaults.standard.set(user["firstName"].stringValue, forKey: "firstName")
+                      UserDefaults.standard.set(user["lastName"].stringValue, forKey: "lastName")
+                      UserDefaults.standard.set(user["mobileNo"].stringValue, forKey: "mobilenumber")
+                      
+                      guard let rawData = try? salesIds.rawData() else { return }
+                      UserDefaults.standard.setValue(rawData, forKey: "salesIdArry")
+                    
 
+                      secondrySaleIds.removeAll()
+                      guard let data = UserDefaults.standard.value(forKey: "salesIdArry") as? Data else { return }
+                               
+                               let json = JSON(data)
+                               if let items = json.array {
+                                   for item in items {
+                                       if let title = item.string {
+                                         
+                                           self.secondrySaleIds.append(title)
+                                       }
+                                   }
+                               }
+                      var new =  "\(secondrySaleIds)".replacingOccurrences(of: "\"", with: "", options: NSString.CompareOptions.literal, range:nil)
+                           
+                    
+                    valueArry.removeAll()
+                           userData  = try! Realm().objects(UserModel.self)
+                           for alluserData in userData!  {
+                               valueArry.append("\(UserDefaults.standard.string(forKey: "firstName")!) \(UserDefaults.standard.string(forKey: "lastName")!)")
+                               valueArry.append(alluserData.email)
+                               valueArry.append((UserDefaults.standard.string(forKey: "mobilenumber")!) )
+                               valueArry.append(alluserData.storeName)
+                               valueArry.append(String(alluserData.storeId))
+                               valueArry.append(alluserData.salesId)
+                               valueArry.append("\(new)")
+                               
+                               
+                           }
+                           userTable.reloadData()
+                    print("fffffffffff\(user["firstName"].stringValue)")
+                      
+                  }
+                  
+              }else {
+                  
+                  
+                  
+                  
+                 
+    
+              }
+              
+          } catch let error {
+              print(error)
+          }
+          
+      }
+    
+    @objc func requestFailedSync(response:ResponseSwift){
+           
+       }
+       
 }

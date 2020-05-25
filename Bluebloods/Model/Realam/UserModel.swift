@@ -17,6 +17,7 @@ class UserModel: Object {
     @objc dynamic var storeId = 0
     @objc dynamic var storeName = ""
     @objc dynamic var salesId = ""
+    @objc dynamic var salesId_second = ""
     @objc dynamic var regionId = 0
     @objc dynamic var organizationId = 0
     @objc dynamic var mobileNo = ""

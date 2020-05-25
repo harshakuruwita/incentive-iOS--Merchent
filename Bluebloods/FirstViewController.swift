@@ -12,12 +12,14 @@ import SDWebImage
 import DropDown
 import SwiftyJSON
 import LinearProgressBar
+import NVActivityIndicatorView
 
 
 class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var filterbarLogo: UIImageView!
     @IBOutlet weak var navigationBarUiView: UIView!
     
+    @IBOutlet weak var activityIndicator: NVActivityIndicatorView!
     @IBOutlet weak var filterbarHolder: UIView!
     @IBOutlet weak var nodataView: UIView!
     @IBOutlet weak var storeManagerTable: UITableView!
@@ -65,6 +67,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
     var selectedTimePeriod = ""
     var selectedTimeStart = ""
     var selectedTimend = ""
+    var selectedTimPeriod_ID = 0
     var userRole = ""
     var storeName = ""
     var storeLogoPath = ""
@@ -74,6 +77,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
     var timePeriodArry:[String] = []
     var timePeriodstartArry:[String] = []
     var timePeriodendArry:[String] = []
+    var timePeriodendIdArry:[Int] = []
     var isTokenSync = false
     var apnsToken = ""
     var salesId = ""
@@ -82,38 +86,43 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+        nodataView.isHidden = true
         filterbarLogo.layer.cornerRadius = filterbarLogo.frame.height / 2
         filterbarLogo.clipsToBounds = true
         colourSwitcher()
         loadIncentive()
         getIncentiveFilter()
         storeManagerTable.separatorStyle = .none
+        timelineTable.allowsSelection = false
+        timelineTable.separatorStyle = .none
+//        apnsToken = UserDefaults.standard.string(forKey: "apnsToken")!
+        
         #if targetEnvironment(simulator)
         // your simulator code
         #else
-        isTokenSync = UserDefaults.standard.bool(forKey: "isTokenSync")
-        apnsToken = UserDefaults.standard.string(forKey: "apnsToken")!
-        if(isTokenSync){
-            print("sync Token is - \(apnsToken)")
-        }else{
-    
-            syncDeviceToken()
-        }
+       //  syncDeviceToken()
+      //   isTokenSync = UserDefaults.standard.bool(forKey: "isTokenSync")
+        
+//        if(isTokenSync){
+//            print("sync Token is - \(apnsToken)")
+//        }else{
+//
+//            syncDeviceToken()
+//        }
         #endif
         
         let realm = try! Realm()
         let organizationTheme = realm.objects(OrganizationTheme.self)
         storeLogoPath  = organizationTheme[0].logoSmall
         filterbarLogo.sd_setImage(with: URL(string: storeLogoPath), placeholderImage: UIImage(named: "placeholder.png"))
-        
+     //   syncDeviceToken()
         individulButton.backgroundColor = .clear
         individulButton.layer.cornerRadius = 18
         individulButton.layer.borderWidth = 1.5
-        individulButton.layer.borderColor = UIColor().colour1()
-        storeButton.setTitleColor(UIColor().colourHex1(), for: .normal)
-        individulButton.setTitleColor(UIColor().colourHex1(), for: .normal)
-       nodataView.isHidden = false
+        individulButton.layer.borderColor = UIColor(red:0.61, green:0.84, blue:0.82, alpha:1.0).cgColor
+       // storeButton.setTitleColor(UIColor().colourHex1(), for: .normal)
+      //  individulButton.setTitleColor(UIColor().colourHex1(), for: .normal)
+       
         userData  = try! Realm().objects(UserModel.self)
         for alluserData in userData!  {
             userRole = alluserData.userRole
@@ -125,7 +134,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
         if(userRole == "STORE_MANAGER"){
             storeManagerSepataror.isHidden = false
             storeManagerTabBar.isHidden = false
-            storeButton.setTitle(storeName,for: .normal)
+            storeButton.setTitle("Store",for: .normal)
             
         }else{
             storeManagerSepataror.isHidden = true
@@ -143,7 +152,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
             self.selectedincentiveId = (self.incentiveidArry[index])
            
             self.incentiveLbl.text = self.incentiveArry[index]
-            self.loadRecuring()
+           self.loadRecuring()
         }
         
         
@@ -154,7 +163,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
                    self.selectedRecuringId = (self.recuringidArry[index])
                     self.selectedRecuringType = self.recuringTypeArry[index]
                    self.recurungNameLbl.text = self.recuringNameArry[index]
-                   self.loadRecuring()
+                   self.loadTimePeriod()
                }
         
         
@@ -165,7 +174,8 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
             self.selectedTimePeriod = self.timePeriodArry[index]
             self.selectedTimeStart = self.timePeriodstartArry[index]
             self.selectedTimend = self.timePeriodendArry[index]
-         
+            self.selectedTimPeriod_ID = self.timePeriodendIdArry[index]
+            
             self.loadIndividualKpiData()
          
         }
@@ -180,22 +190,32 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
         storeButton.backgroundColor = .clear
         storeButton.layer.cornerRadius = 18
         storeButton.layer.borderWidth = 1.5
-        storeButton.layer.borderColor = UIColor().colour1()
+        storeButton.layer.borderColor = UIColor(red:0.61, green:0.84, blue:0.82, alpha:1.0).cgColor
         
         storeType = true
         kpitTableData = kpitTableStoreData
-        print(kpitTableData)
+        
        
         if(kpitTableData.count > 0){
             timelineTable.isHidden = false
+            nodataView.isHidden = true
             timelineTable.reloadData()
         }else{
             timelineTable.isHidden = true
             nodataView.isHidden = false
+             timelineTable.reloadData()
         }
         
         
     }
+    
+    @IBAction func unwindToRed(segue: UIStoryboardSegue) {
+        print("here its unwind")
+    }
+    
+    @IBAction func change(_ sender: Any) {
+     //   self.selectedIndex = 0
+       }
     
     @IBAction func individualButtonClick(sender: AnyObject) {
         
@@ -204,15 +224,17 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
         individulButton.backgroundColor = .clear
         individulButton.layer.cornerRadius = 18
         individulButton.layer.borderWidth = 1.5
-        individulButton.layer.borderColor = UIColor().colour1()
+        individulButton.layer.borderColor = UIColor(red:0.61, green:0.84, blue:0.82, alpha:1.0).cgColor
         storeType = false
         kpitTableData = kpitTableIndividualData
         if(kpitTableData.count > 0){
             timelineTable.isHidden = false
+            nodataView.isHidden = true
             timelineTable.reloadData()
         }else{
             timelineTable.isHidden = true
             nodataView.isHidden = false
+             timelineTable.reloadData()
         }
         
     }
@@ -232,7 +254,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
         if let someInt = kpitTableData[indexPath.row]["specialPlace"].int{
              return 138
         } else {
-            return 170
+            return 138
         }
              }
     
@@ -243,14 +265,19 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
             
             let cell:DashbordPointsCell = tableView.dequeueReusableCell(withIdentifier: "DashbordPointsCell") as! DashbordPointsCell
             
-            let baronevalue = kpitTableData[indexPath.row]["value1"].intValue
+            let baronevalue = kpitTableData[indexPath.row]["value1"].stringValue
+            let baronevalue_fil = kpitTableData[indexPath.row]["target"].doubleValue
+            let bartwovalue_fil = kpitTableData[indexPath.row]["total"].doubleValue
             let bartwovalue = kpitTableData[indexPath.row]["value2"].intValue
             let baroneColour = kpitTableData[indexPath.row]["color1"].stringValue
             let bartwoColour = kpitTableData[indexPath.row]["color2"].stringValue
-            let ShortName = kpitTableData[indexPath.row]["ShortName"].stringValue
+            let ShortName = kpitTableData[indexPath.row]["LongName"].stringValue
             
-            cell.batOne.progressValue = CGFloat(baronevalue)
-            cell.barTwo.progressValue = CGFloat(bartwovalue)
+            let WebName = kpitTableData[indexPath.row]["MobileName"].stringValue
+            let mobileName = kpitTableData[indexPath.row]["TargetMobileName"].stringValue
+            
+            cell.batOne.progressValue = CGFloat(bartwovalue_fil)
+            cell.barTwo.progressValue = CGFloat(baronevalue_fil)
             cell.frontValue.text = String(someInt)
             
             cell.batOne.barColor = UIColor().colourHex(hexColour: baroneColour)
@@ -259,38 +286,58 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
             
             
             let text = NSMutableAttributedString()
-            text.append(NSAttributedString(string: "Your points  ", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14.0)]))
-            text.append(NSAttributedString(string: String(baronevalue), attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 26, weight: UIFont.Weight.heavy)]))
+            text.append(NSAttributedString(string: WebName, attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14.0)]))
+            text.append(NSAttributedString(string: " ", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14.0)]))
+            text.append(NSAttributedString(string: String(baronevalue), attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.heavy)]))
             cell.barOneValue.attributedText = text
             
-            let texttwo = NSMutableAttributedString()
-            texttwo.append(NSAttributedString(string: "Leader's points  ", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14.0)]))
-            texttwo.append(NSAttributedString(string: String(bartwovalue), attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 26, weight: UIFont.Weight.heavy)]))
-            cell.barTwoValue.attributedText = texttwo
+            cell.barOneValue.textColor = UIColor().colourHex(hexColour: baroneColour)
             
+            let texttwo = NSMutableAttributedString()
+            texttwo.append(NSAttributedString(string: mobileName, attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14.0)]))
+            texttwo.append(NSAttributedString(string: " ", attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14.0)]))
+            texttwo.append(NSAttributedString(string: String(bartwovalue), attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.heavy)]))
+            cell.barTwoValue.attributedText = texttwo
+            cell.barTwoValue.textColor = UIColor().colourHex(hexColour: bartwoColour)
             
 
             return cell
         } else {
             let cell:DashbordBonuASPCell = tableView.dequeueReusableCell(withIdentifier: "DashbordBonuASPCell") as! DashbordBonuASPCell
             
-            let baronevalue = kpitTableData[indexPath.row]["value1"].intValue
-            let bartwovalue = kpitTableData[indexPath.row]["value2"].intValue
+          
             let baroneColour = kpitTableData[indexPath.row]["color1"].stringValue
             let bartwoColour = kpitTableData[indexPath.row]["color2"].stringValue
-          
+          let baronevalue_fil = kpitTableData[indexPath.row]["target"].doubleValue
+                     let bartwovalue_fil = kpitTableData[indexPath.row]["total"].doubleValue
 
-            cell.achementHeadder.text = kpitTableData[indexPath.row]["LongName"].stringValue
-            cell.progressBarone.progressValue = CGFloat(baronevalue)
-            cell.progressbarTwo.progressValue = CGFloat(bartwovalue)
+            cell.achementHeadder.text = "\(kpitTableData[indexPath.row]["LongName"].stringValue) ( \(kpitTableData[indexPath.row]["ShortName"].stringValue) )"
+            cell.progressBarone.progressValue = CGFloat(bartwovalue_fil)
+            cell.progressbarTwo.progressValue = CGFloat(baronevalue_fil)
             cell.progressBarone.barColor = UIColor().colourHex(hexColour: baroneColour)
             cell.progressbarTwo.barColor = UIColor().colourHex(hexColour: bartwoColour)
-            let yourARHeadder = "Your \(kpitTableData[indexPath.row]["LongName"].stringValue) "
-            let targetHeadder = "Target \(kpitTableData[indexPath.row]["LongName"].stringValue) "
+            let yourARHeadder = "\(kpitTableData[indexPath.row]["MobileName"].stringValue) "
+            let targetHeadder = "\(kpitTableData[indexPath.row]["TargetMobileName"].stringValue) "
             
-
-            let yourARValue = " \(kpitTableData[indexPath.row]["value1"].stringValue) %"
-            let targetValue = " \(kpitTableData[indexPath.row]["value2"].stringValue) %"
+            var yourARValue =  ""
+            var targetValue = " "
+            
+            if(kpitTableData[indexPath.row]["MeasureType"].stringValue == "POINT"){
+                
+                 yourARValue = "Point \(kpitTableData[indexPath.row]["value1"].stringValue)"
+                 targetValue = "Point \(kpitTableData[indexPath.row]["value2"].stringValue)"
+            } else if(kpitTableData[indexPath.row]["MeasureType"].stringValue == "#"){
+                           
+                            yourARValue = "# \(kpitTableData[indexPath.row]["value1"].stringValue)"
+                            targetValue = "# \(kpitTableData[indexPath.row]["value2"].stringValue)"
+                }else if(kpitTableData[indexPath.row]["MeasureType"].stringValue == "$"){
+                           
+                            yourARValue = "$ \(kpitTableData[indexPath.row]["value1"].stringValue)"
+                            targetValue = "$ \(kpitTableData[indexPath.row]["value2"].stringValue)"
+                }
+            
+            
+            
             
          
             cell.yorArHeadder.textColor = UIColor().colourHex(hexColour: baroneColour)
@@ -299,18 +346,18 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
           
             let text = NSMutableAttributedString()
             text.append(NSAttributedString(string: yourARHeadder, attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14.0)]))
-            text.append(NSAttributedString(string: yourARValue, attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.heavy)]))
+            text.append(NSAttributedString(string: yourARValue, attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.heavy)]))
             cell.yorArHeadder.attributedText = text
             
             let textTarget = NSMutableAttributedString()
             textTarget.append(NSAttributedString(string: targetHeadder, attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14.0)]))
-            textTarget.append(NSAttributedString(string: targetValue, attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.heavy)]))
+            textTarget.append(NSAttributedString(string: targetValue, attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.heavy)]))
             cell.targetArHeader.attributedText = textTarget
             
           //  cell.targetArHeader.frame.origin.x = CGFloat((targetValue as NSString).floatValue)
 
-            cell.targetArHeader.frame.origin.x = 300
-            cell.yorArHeadder.frame.origin.x = 300
+           // cell.targetArHeader.frame.origin.x = 300
+           // cell.yorArHeadder.frame.origin.x = 300
 
             return cell
         }
@@ -353,6 +400,8 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
              }
     
     func loadIncentive(){
+        incentiveArry.removeAll()
+        incentiveidArry.removeAll()
         incentives  = try! Realm().objects(Incentive.self)
           
                for allIncentives in incentives!  {
@@ -380,6 +429,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
         recuringidArry.removeAll()
         recuringTypeArry.removeAll()
         recuringNameArry.removeAll()
+       
         for allRecurrings in Recurrings!  {
             
             
@@ -391,9 +441,9 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
         
         if(recuringNameArry.count > 0){
         recurungNameLbl.text = recuringNameArry[0]
-            if(selectedRecuringId == 0){
+          
             selectedRecuringId = recuringidArry[0]
-            }
+         
             self.selectedRecuringType = recuringTypeArry[0]
         }
         loadTimePeriod()
@@ -403,38 +453,49 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
     
     func loadTimePeriod(){
         
-
-        
-        TimePeriodss  = try! Realm().objects(TimePeriods.self).filter("recuringid = \(self.selectedRecuringId)")
+        TimePeriodss  = try! Realm().objects(TimePeriods.self).filter("recuringid = \(self.selectedRecuringId) AND incentiveId = \(selectedincentiveId)")
         timePeriodArry.removeAll()
+        timePeriodstartArry.removeAll()
+        timePeriodendArry.removeAll()
+        timePeriodendIdArry.removeAll()
       
         for allTimePeriodss in TimePeriodss!  {
-                   timePeriodArry.append(allTimePeriodss.periodName)
+            timePeriodArry.append(allTimePeriodss.periodName)
             timePeriodstartArry.append(allTimePeriodss.StartDate)
             timePeriodendArry.append(allTimePeriodss.EndDate)
+            timePeriodendIdArry.append(allTimePeriodss.timeperiodid)
                    
                }
         
-         timePeriodLbl.text = timePeriodArry[0]
-         self.selectedTimePeriod = timePeriodArry[0]
-        self.selectedTimeStart = self.timePeriodstartArry[0]
-        self.selectedTimend = self.timePeriodendArry[0]
-       
-        loadIndividualKpiData()
+        if(timePeriodArry.count > 0){
+                     timePeriodLbl.text = timePeriodArry[0]
+                    self.selectedTimePeriod = timePeriodArry[0]
+                    self.selectedTimeStart = self.timePeriodstartArry[0]
+                    self.selectedTimend = self.timePeriodendArry[0]
+                    self.selectedTimPeriod_ID = self.timePeriodendIdArry[0]
+                    loadIndividualKpiData()
+        }
+        
+//         timePeriodLbl.text = timePeriodArry[0]
+//         self.selectedTimePeriod = timePeriodArry[0]
+//        self.selectedTimeStart = self.timePeriodstartArry[0]
+//        self.selectedTimend = self.timePeriodendArry[0]
+//
+//        loadIndividualKpiData()
     }
 
     func syncDeviceToken(){
         
         let json: JSON =  ["deviceType": "ios","token": apnsToken]
      
-        RestClient.makeArryPostRequestWithToken(url: APPURL.sendToken,arryParam: json, delegate: self, requestFinished: #selector(self.requestFinishedSync), requestFailed: #selector(self.requestFailedSync), tag: 1)
+        RestClient.makeArryPatchRequestWithToken(url: APPURL.sendToken,arryParam: json, delegate: self, requestFinished: #selector(self.requestFinishedSync), requestFailed: #selector(self.requestFailedSync), tag: 1)
     }
 
     @objc func requestFinishedSync(response:ResponseSwift){
   
     do {
         let userObj = JSON(response.responseObject!)
-       
+       print("TokenSync\(userObj)")
        //  UserDefaults.standard.set(true, forKey: "isLogin")
     } catch let error {
               print(error)
@@ -443,49 +504,50 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
       }
     
     @objc func requestFailedSync(response:ResponseSwift){
-         print(response)
+         print("Response is - \(response)")
     }
     
     
     ////
     func getIncentiveFilter() {
         
-        
+        activityIndicator.startAnimating()
         RestClient.makeGetRequstWithToken(url: APPURL.getFilter, delegate: self, requestFinished: #selector(self.requestFinishedFetch), requestFailed: #selector(self.requestFailedfec), tag: 1)
         
     }
     
     
     
-    func loadStoreKpiData(salsesId:String) {
-        let uri = "\(APPURL.fetchKpiData)\(selectedincentiveId)&selectPeriod=\(selectedRecuringType)&salesId=\(salsesId)&StartDate=\(selectedTimeStart)&EndDate=\(selectedTimend)&targetForStore=true"
+    func loadStoreKpiData() {
+        activityIndicator.startAnimating()
+        let uri = "\(APPURL.fetchStoreDashbord)\(selectedincentiveId)&selectPeriod=\(selectedRecuringType)&StartDate=\(selectedTimeStart)&EndDate=\(selectedTimend)&PeriodId=\(selectedTimPeriod_ID)&moduleType=rep&tableDisplay=false"
             
-            print(uri)
+           
         
 
-        RestClient.makeGetRequstWithToken(url: uri, delegate: self, requestFinished: #selector(self.requestFinishedFetchKpi), requestFailed: #selector(self.requestFailedfec), tag: 1)
+        RestClient.makeGetRequstWithToken(url: uri, delegate: self, requestFinished: #selector(self.requestFinishedFetchStoreKpi), requestFailed: #selector(self.requestFailedfec), tag: 1)
         
     }
     
     func loadIndividualKpiData() {
         
-            
-           let uri = "\(APPURL.fetchKpiData)\(selectedincentiveId)&selectPeriod=\(selectedRecuringType)&StartDate=\(selectedTimeStart)&EndDate=\(selectedTimend)"
+        activityIndicator.startAnimating()
+           let uri = "\(APPURL.fetchIndividualDashbord)\(selectedincentiveId)&selectPeriod=\(selectedRecuringType)&StartDate=\(selectedTimeStart)&EndDate=\(selectedTimend)&PeriodId=\(selectedTimPeriod_ID)&moduleType=rep&tableDisplay=false"
        
-        
-        print(uri)
-        
         RestClient.makeGetRequstWithToken(url: uri, delegate: self, requestFinished: #selector(self.requestFinishedFetchKpiIndividual), requestFailed: #selector(self.requestFailedfec), tag: 1)
         
     }
     
     
-    @objc func requestFinishedFetchKpi(response:ResponseSwift){
+    @objc func requestFinishedFetchStoreKpi(response:ResponseSwift){
         
         do {
+            
+            activityIndicator.stopAnimating()
             let userObj = JSON(response.responseObject!)
-          
             let code = userObj["response"]["code"].intValue
+            
+            print("Store object\(userObj)")
     
             if(code == 200){
                 kpitTableStoreData = userObj["response"]["dataArr"]
@@ -497,10 +559,12 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
                     kpitTableData = kpitTableStoreData
                     if(kpitTableData.count > 0){
                         timelineTable.isHidden = false
+                        nodataView.isHidden = true
                         timelineTable.reloadData()
                     }else{
                         timelineTable.isHidden = true
                         nodataView.isHidden = false
+                        timelineTable.reloadData()
                     }
                 }else{
                     
@@ -518,31 +582,23 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
     @objc func requestFinishedFetchKpiIndividual(response:ResponseSwift){
         
         do {
+            activityIndicator.stopAnimating()
+            loadStoreKpiData()
             let userObj = JSON(response.responseObject!)
-            print(userObj)
-            
             let code = userObj["response"]["code"].intValue
             
             if(code == 200){
                 kpitTableIndividualData = userObj["response"]["dataArr"]
+                kpitTableData = kpitTableIndividualData
                 
                 
-                
-                if(userRole == "STORE_MANAGER"){
-                    loadStoreKpiData(salsesId:salesId)
-                }
-                
-                if(storeType){
-                    
-                }else{
-                    kpitTableData = kpitTableIndividualData
-                }
+               
                 if(kpitTableData.count > 0){
                     timelineTable.isHidden = false
                     nodataView.isHidden = true
                     timelineTable.reloadData()
                 }else{
-                    timelineTable.isHidden = true
+                     timelineTable.reloadData()
                     nodataView.isHidden = false
                 }
                 storemanagerView.isHidden = true
@@ -578,7 +634,11 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
     @objc func requestFinishedFetch(response:ResponseSwift){
         
         do {
+            activityIndicator.stopAnimating()
             let userObj = JSON(response.responseObject!)
+            
+          print("Arina\(userObj)")
+            
             let incentiveJson = userObj["response"]["Periods"]
 
             var IncentiveDBs:[Incentive] = []
@@ -589,7 +649,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
    
             }
             
-            
+            var  i = 0
             for (_, subJson) in incentiveJson {
                 if let incentiveName = subJson["incentiveName"].string {
                     
@@ -603,7 +663,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
                     
                     
                     IncentiveDBs.append(IncentiveDB)
-                    var  i = 0
+                    
                     for (_, subtimeJson) in timePeriodArr {
                         if let RecurringType = subtimeJson["name"].string {
                             i = i + 1
@@ -658,7 +718,7 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
     }
 
     @objc func requestFailedfec(response:ResponseSwift){
-        
+        activityIndicator.stopAnimating()
     }
     ///
     

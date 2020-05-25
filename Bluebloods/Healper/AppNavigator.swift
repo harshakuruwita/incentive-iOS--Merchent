@@ -12,11 +12,14 @@ class AppNavigator: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        UITabBar.appearance().barTintColor = UIColor(cgColor: UIColor().colour2())
+        UITabBar.appearance().barTintColor = UIColor(cgColor: UIColor().colour1())
+        
         
     }
     
-
+    func changetab(){
+        self.selectedIndex = 3
+    }
    
 
 }

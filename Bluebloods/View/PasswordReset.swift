@@ -66,17 +66,17 @@ class PasswordReset: UIViewController {
         
         if(!emailAddressString.isValidEmail()){
             
-            let banner = NotificationBanner(title: "Sorry", subtitle: "Invalid email address",  style: .danger)
+            let banner = NotificationBanner(title: "Sorry", subtitle: "Invalid email address!",  style: .danger)
             banner.show()
         }else{
         
         activitiIndicator.startAnimating()
         
-        let json: JSON =  ["email": emailAddressString]
+        let json: JSON =  ["email": emailAddressString,"domain":APPURL.getOrganizationUri]
             
        
        
-        RestClient.makeArryPostRequestWithToken(url: APPURL.resetPassword,arryParam: json, delegate: self, requestFinished: #selector(self.requestFinishedSync), requestFailed: #selector(self.requestFailedSync), tag: 1)
+        RestClient.makeArryPostRequestUrl(url: APPURL.resetPassword,arryParam: json, delegate: self, requestFinished: #selector(self.requestFinishedSync), requestFailed: #selector(self.requestFailedSync), tag: 1)
  
     }
 
@@ -93,12 +93,23 @@ class PasswordReset: UIViewController {
             let userObj = JSON(response.responseObject!)
             
             if(userObj["response"]["code"].intValue == 200){
-                let banner = NotificationBanner(title: "Success", subtitle: "The password reset email has been sent to your on-file email address.",  style: .success)
-                banner.show()
-                 self.performSegue(withIdentifier: "passwordResetSuccess", sender: nil)
+                
+                let alert = UIAlertController(title: "Success", message: "Reset password link sent. Please check your e-mail to reset your password.", preferredStyle: .alert)
+                               alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+                                 //  performSegue(withIdentifier: "rederectUserLogin", sender: nil)
+                                    self.performSegue(withIdentifier: "passwordResetSuccess", sender: nil)
+                               }))
+                               
+                               
+                               self.present(alert, animated: true)
+                
+                
+                
+                
+    
                 
             }else{
-                let banner = NotificationBanner(title: "Sorry", subtitle: "Invalid email address",  style: .danger)
+                let banner = NotificationBanner(title: "Sorry", subtitle: "Invalid email address!",  style: .danger)
                 banner.show()
             }
         
@@ -117,6 +128,9 @@ class PasswordReset: UIViewController {
     
     
     @objc func requestFailedSync(response:ResponseSwift){
+        activitiIndicator.stopAnimating()
+        let banner = NotificationBanner(title: "Sorry", subtitle: "User not available!",  style: .danger)
+                      banner.show()
         
     }
     

@@ -10,14 +10,19 @@ import UIKit
 import WebKit
 import DropDown
 import RealmSwift
+import NVActivityIndicatorView
 import RealmSwift
 
 class InfoViewControler: UIViewController , WKNavigationDelegate, WKUIDelegate {
   
+ 
     @IBOutlet weak var infoWebView: WKWebView!
     @IBOutlet weak var filterBarLogo: UIImageView!
     
+    @IBOutlet weak var activityIndicator: NVActivityIndicatorView!
     @IBOutlet weak var navigationBarUiView: UIView!
+    
+    @IBOutlet weak var noDataView: UIView!
     
     @IBOutlet weak var incentiveLbl: UILabel!
     @IBOutlet weak var gradianentView: UIView!
@@ -31,7 +36,7 @@ class InfoViewControler: UIViewController , WKNavigationDelegate, WKUIDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        noDataView.isHidden = false
         filterBarLogo.layer.cornerRadius = filterBarLogo.frame.height / 2
         filterBarLogo.clipsToBounds = true
         
@@ -42,15 +47,24 @@ class InfoViewControler: UIViewController , WKNavigationDelegate, WKUIDelegate {
         filterBarLogo.sd_setImage(with: URL(string: storeLogoPath), placeholderImage: UIImage(named: "placeholder.png"))
         // Do any additional setup after loading the view.
         loadIncentive()
-        if(incentiveUri.count > 0){
+        if(incentiveUri[0] == ""){
+            infoWebView.isHidden = true
+            noDataView.isHidden = false
+        }
+        else{
+            infoWebView.isHidden = false
+            noDataView.isHidden = true
+            activityIndicator.startAnimating()
         let tncURL =  incentiveUri[0]
         
-        print(incentiveUri)
+            
         infoWebView.isUserInteractionEnabled = true
         infoWebView.navigationDelegate = self
         infoWebView.load(URLRequest(url: URL(string: tncURL)!))
         }
         colourSwitcher()
+//        infoWebView.configuration.mediaTypesRequiringUserActionForPlayback = .a
+ 
         
         
         incentivePicker.selectionAction = { [unowned self] (index: Int, item: String) in
@@ -58,7 +72,13 @@ class InfoViewControler: UIViewController , WKNavigationDelegate, WKUIDelegate {
             self.incentiveLbl.text = self.incentiveArry[index]
             
             ///
-            if(self.incentiveUri.count > 0){
+            if( self.incentiveUri[index] == ""){
+                self.infoWebView.isHidden = true
+                self.noDataView.isHidden = false
+            }
+            else{
+                self.infoWebView.isHidden = false
+                self.noDataView.isHidden = true
                 let tncURL =  self.incentiveUri[index]
             
                 print(tncURL)
@@ -74,11 +94,27 @@ class InfoViewControler: UIViewController , WKNavigationDelegate, WKUIDelegate {
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        print("1")
+        activityIndicator.stopAnimating()
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-       print("2")
+        activityIndicator.stopAnimating()
+    }
+    
+   func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
+        if navigationAction.navigationType == WKNavigationType.linkActivated {
+            print("here link Activated!!!\(navigationAction.request.url)")
+            if let url = navigationAction.request.url {
+                let shared = UIApplication.shared
+                if shared.canOpenURL(url) {
+                    shared.open(url, options: [:], completionHandler: nil)
+                }
+            }
+            decisionHandler(.cancel)
+        }
+        else {
+            decisionHandler(.allow)
+        }
     }
     
     

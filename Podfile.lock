@@ -21,6 +21,7 @@ PODS:
   - SDWebImage/Core (5.0.6)
   - SnapKit (5.0.0)
   - SwiftyJSON (5.0.0)
+  - WSTagsField (5.2.0)
 
 DEPENDENCIES:
   - AAViewAnimator
@@ -33,12 +34,14 @@ DEPENDENCIES:
   - RealmSwift
   - SDWebImage
   - SwiftyJSON
+  - WSTagsField
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - AAViewAnimator
     - Alamofire
     - DropDown
+    - IQKeyboardManagerSwift
     - LinearProgressBar
     - MarqueeLabel
     - NotificationBannerSwift
@@ -48,8 +51,7 @@ SPEC REPOS:
     - SDWebImage
     - SnapKit
     - SwiftyJSON
-  trunk:
-    - IQKeyboardManagerSwift
+    - WSTagsField
 
 SPEC CHECKSUMS:
   AAViewAnimator: 3cbd05e73ebda910231f966f8043ba96e674eee5
@@ -65,7 +67,8 @@ SPEC CHECKSUMS:
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
   SnapKit: fd22d10eb9aff484d79a8724eab922c1ddf89bcf
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+  WSTagsField: d57a287fd552934db1d93a85d38abbf74b067d6a
 
-PODFILE CHECKSUM: c47d47ffc1fca827ed80561a41ce4a9c6504a21e
+PODFILE CHECKSUM: 68560f156c89ed0a354ef526cdedcbb907845695
 
-COCOAPODS: 1.8.0.beta.2
+COCOAPODS: 1.8.4
