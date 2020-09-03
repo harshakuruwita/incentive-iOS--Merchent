@@ -47,20 +47,21 @@ class InfoViewControler: UIViewController , WKNavigationDelegate, WKUIDelegate {
         filterBarLogo.sd_setImage(with: URL(string: storeLogoPath), placeholderImage: UIImage(named: "placeholder.png"))
         // Do any additional setup after loading the view.
         loadIncentive()
-        if(incentiveUri[0] == ""){
-            infoWebView.isHidden = true
-            noDataView.isHidden = false
+        if(incentiveUri.count > 0 ){
+
+            infoWebView.isHidden = false
+                       noDataView.isHidden = true
+                       activityIndicator.startAnimating()
+                   let tncURL =  incentiveUri[0]
+                   
+                       
+                   infoWebView.isUserInteractionEnabled = true
+                   infoWebView.navigationDelegate = self
+                   infoWebView.load(URLRequest(url: URL(string: tncURL)!))
         }
         else{
-            infoWebView.isHidden = false
-            noDataView.isHidden = true
-            activityIndicator.startAnimating()
-        let tncURL =  incentiveUri[0]
-        
-            
-        infoWebView.isUserInteractionEnabled = true
-        infoWebView.navigationDelegate = self
-        infoWebView.load(URLRequest(url: URL(string: tncURL)!))
+           infoWebView.isHidden = true
+           noDataView.isHidden = false
         }
         colourSwitcher()
 //        infoWebView.configuration.mediaTypesRequiringUserActionForPlayback = .a
@@ -139,7 +140,13 @@ class InfoViewControler: UIViewController , WKNavigationDelegate, WKUIDelegate {
                     incentiveUri.append(allIncentives.url)
                   }
            
-           incentiveLbl.text = incentiveArry[0]
+        if(incentiveArry.count > 0){
+            incentiveLbl.text = incentiveArry[0]
+        }else{
+            incentiveLbl.text = ""
+        }
+        
+           
            
        }
     

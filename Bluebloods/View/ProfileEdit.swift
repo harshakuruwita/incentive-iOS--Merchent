@@ -43,7 +43,9 @@ class ProfileEdit: UIViewController,UITextViewDelegate {
 //        salseidTag.placeholderAlwaysVisible = true
 //        salseidTag.placeholder = "Press space to add"
         
-        
+        sec_saled_id_1.autocapitalizationType = .none
+        sec_saled_id_2.autocapitalizationType = .none
+        sec_saled_id_3.autocapitalizationType = .none
         
         
         mobileNumber.text = UserDefaults.standard.string(forKey: "mobilenumber")!
@@ -90,14 +92,14 @@ class ProfileEdit: UIViewController,UITextViewDelegate {
     
     
     func checkForIllegalCharacters(string: String) -> Bool {
-        let invalidCharacters = CharacterSet(charactersIn: " !\"#$%&'()*+,-./:;<=>?@\\[\\\\\\]^_`{|}~].{,}$")
+        let invalidCharacters = CharacterSet(charactersIn: " !\"#$%&'()*+,/:;<=>?\\[\\\\\\]^`{|}~]{,}$")
             .union(.newlines)
             .union(.illegalCharacters)
             .union(.controlCharacters)
         
         if string.rangeOfCharacter(from: invalidCharacters) != nil {
         
-            let banner = NotificationBanner(title: "Sorry", subtitle: "Invalid secondry sales ID! Enter only alphanumeric value without spaces!",  style: .danger)
+            let banner = NotificationBanner(title: "Sorry", subtitle: "Invalid secondry sales ID! Enter only alphanumeric value or email without spaces!",  style: .danger)
                            activitiIndicator.stopAnimating()
                            banner.show()
             return true

@@ -13,7 +13,7 @@ import DropDown
 import NVActivityIndicatorView
 import  WSTagsField
 
-class UserRegistation: UIViewController, UITextViewDelegate {
+class UserRegistation: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     @IBOutlet weak var gradientView: UIView!
     var gradientLayer: CAGradientLayer!
     var textHeightConstraint: NSLayoutConstraint!
@@ -63,11 +63,13 @@ class UserRegistation: UIViewController, UITextViewDelegate {
         // Do any additional setup after loading the view.
         // contentScroleView.bounces = contentScroleView.contentOffset.y < contentScroleView.contentSize.height - contentScroleView.frame.height
         
-        
-      
+        salesIdFild.autocapitalizationType = .none
+        sec_saled_id_1.autocapitalizationType = .none
+        sec_saled_id_2.autocapitalizationType = .none
+        sec_saled_id_3.autocapitalizationType = .none
 
        
-        
+        salesIdFild?.delegate = self;
                // var maxHeight: CGFloat = sec_saled_id_1.font.lineHeight * amountOfLinesToBeShown
         
 //        salesIDTAg.returnKeyType = .done
@@ -106,13 +108,20 @@ class UserRegistation: UIViewController, UITextViewDelegate {
         self.userRoleValue = "SALES_REP"
         let json: JSON =  ["organizationId": AppConstants.organizationid]
         
-        
+       
         
         RestClient.makeArryPostRequestUrl(url: APPURL.getOrganization,arryParam: json, delegate: self, requestFinished: #selector(self.requestFinishedgetOrganization), requestFailed: #selector(self.requestFailedSync), tag: 1)
         
         
         storeDropdownHolder.isHidden = true
+       
         dropDownStore.width = UIScreen.main.bounds.width
+        dropDownStore.cornerRadius = 8
+        //dropDownStore.direction = .any
+      //  dropDownStore.bottomOffset = CGPoint(x: 0, y:(dropDownStore.lastNameFild.plainView.bounds.height)!)
+        dropDownStore.anchorView = activitiIndicator
+        dropDownStore.topOffset = CGPoint(x: 0, y:(dropDownStore.anchorView?.plainView.bounds.height)!)
+        
         dropDownRole.selectionAction = { [unowned self] (index: Int, item: String) in
             print("Selected item: \(item) at index: \(index)")
             if(index == 0){
@@ -135,6 +144,8 @@ class UserRegistation: UIViewController, UITextViewDelegate {
         }
     }
     
+    
+    
     func textViewDidChange(_ textView: UITextView) {
           let fixedWidth = textView.frame.size.width
           textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
@@ -144,8 +155,33 @@ class UserRegistation: UIViewController, UITextViewDelegate {
           textView.frame = newFrame
     }
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        return textView.text.count + (text.count - range.length) <= 25
+
+    
+      func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        guard CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz1234567890@-_.").isSuperset(of: CharacterSet(charactersIn: text)) else {
+            return false
+        }
+        print("lll");
+       return textView.text.count + (text.count - range.length) <= 25
+    }
+    
+
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if(textField == salesIdFild){
+        guard CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz1234567890@-_.").isSuperset(of: CharacterSet(charactersIn: string)) else {
+                   return false
+               }
+              
+        return textField.text!.count + (string.count - range.length) <= 25
+        
+        }else{
+            return true;
+        }
+        
+        
+        
     }
   
     
@@ -242,7 +278,7 @@ class UserRegistation: UIViewController, UITextViewDelegate {
                 let banner = NotificationBanner(title: "Sorry", subtitle: "Please fill the required data!",  style: .danger)
                 banner.show()
             }else{
-                let banner = NotificationBanner(title: "Sorry", subtitle: "Invalid sales ID! Enter only alphanumeric value without spaces!",  style: .danger)
+                let banner = NotificationBanner(title: "Sorry", subtitle: "Invalid sales ID! Enter only alphanumeric value or email without spaces!",  style: .danger)
                 banner.show()
             }
         }
@@ -282,7 +318,7 @@ class UserRegistation: UIViewController, UITextViewDelegate {
         }
         
         else if(self.checkForIllegalCharacters(string: secv_saled_id_v1) || self.checkForIllegalCharacters(string: secv_saled_id_v2) || self.checkForIllegalCharacters(string: secv_saled_id_v3)){
-            let banner = NotificationBanner(title: "Sorry", subtitle: "Invalid secondry sales ID! Enter only alphanumeric value without spaces!",  style: .danger)
+            let banner = NotificationBanner(title: "Sorry", subtitle: "Invalid secondry sales ID! Enter only alphanumeric value or email without spaces!",  style: .danger)
             banner.show()
         }
         else{
@@ -298,7 +334,7 @@ class UserRegistation: UIViewController, UITextViewDelegate {
     }
     
     func checkForIllegalCharacters(string: String) -> Bool {
-        let invalidCharacters = CharacterSet(charactersIn: "!\"#$%&'()*+,-./:;<=>?@\\[\\\\\\]^_`{|}~].{,}$")
+        let invalidCharacters = CharacterSet(charactersIn: "!\"#$%&'()*+,/:;<=>?\\[\\\\\\]^`{|}~]{,}$")
             .union(.newlines)
             .union(.illegalCharacters)
             .union(.controlCharacters)
@@ -312,7 +348,7 @@ class UserRegistation: UIViewController, UITextViewDelegate {
         }}
     
     func checkForIllegalCharactersmobile(string: String) -> Bool {
-             let invalidCharacters = CharacterSet(charactersIn: " !\"#$%&'()*+,-./:;<=>?@\\[\\\\\\]^_`{|}~].{,}$")
+             let invalidCharacters = CharacterSet(charactersIn: " !\"#$%&'()*+,-./:;<=>?\\[\\\\\\]^_`{|}~].{,}$")
                  .union(.newlines)
                  .union(.illegalCharacters)
                  .union(.controlCharacters)
@@ -359,8 +395,7 @@ class UserRegistation: UIViewController, UITextViewDelegate {
             print(userObj)
             if(userObj["response"]["code"].int == 200){
                 
-                //                dropDownStore.cornerRadius = 8
-                //                dropDownStore.topOffset = CGPoint(x: 0, y:(dropDownRole.anchorView?.plainView.bounds.height)!)
+                                
                 dropDownStore.show()
                 storeDropdownHolder.isHidden = false
                 

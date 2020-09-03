@@ -12,11 +12,11 @@ struct APPURL {
     
     private struct Domains {
       //  static let Globaluri = "https://www.dev.linkedassets.com"
-     //  static let Localuri = "https://incentive-api-prod.azurewebsites.net/api/v1/"
-       static let Localuri = "https://incentive-api-dev.azurewebsites.net/api/v1/"
+       static let Localuri = "https://incentive-api-prod.azurewebsites.net/api/v1/"
+    //  static let Localuri = "https://incentive-api-dev.azurewebsites.net/api/v1/"
         
-        static let organizationUri = "https://incentive-app-module-uat.azurewebsites.net/"
-     //   static let organizationUri = "https://2degrees.pcincentives.co.nz/"
+    //  static let organizationUri = "https://incentive-app-module-uat.azurewebsites.net/"
+       static let organizationUri = "https://2degrees.pcincentives.co.nz/"
     // static let organizationUri = "https://bluebloods-uat.pcincentives.co.nz/"
     }
     

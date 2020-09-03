@@ -15,7 +15,7 @@ import LinearProgressBar
 import NVActivityIndicatorView
 
 
-class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate {
     @IBOutlet weak var filterbarLogo: UIImageView!
     @IBOutlet weak var navigationBarUiView: UIView!
     
@@ -95,27 +95,21 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
         storeManagerTable.separatorStyle = .none
         timelineTable.allowsSelection = false
         timelineTable.separatorStyle = .none
-//        apnsToken = UserDefaults.standard.string(forKey: "apnsToken")!
+      //  apnsToken = UserDefaults.standard.string(forKey: "apnsToken")!
         
-        #if targetEnvironment(simulator)
-        // your simulator code
-        #else
-       //  syncDeviceToken()
-      //   isTokenSync = UserDefaults.standard.bool(forKey: "isTokenSync")
-        
-//        if(isTokenSync){
-//            print("sync Token is - \(apnsToken)")
-//        }else{
-//
-//            syncDeviceToken()
-//        }
-        #endif
+        if isKeyPresentInUserDefaults(key: "apnsToken") {
+           apnsToken = UserDefaults.standard.string(forKey: "apnsToken")!
+            syncDeviceToken()
+        } else {
+           print("No APNS")
+        }
+   
         
         let realm = try! Realm()
         let organizationTheme = realm.objects(OrganizationTheme.self)
         storeLogoPath  = organizationTheme[0].logoSmall
         filterbarLogo.sd_setImage(with: URL(string: storeLogoPath), placeholderImage: UIImage(named: "placeholder.png"))
-     //   syncDeviceToken()
+        syncDeviceToken()
         individulButton.backgroundColor = .clear
         individulButton.layer.cornerRadius = 18
         individulButton.layer.borderWidth = 1.5
@@ -179,9 +173,19 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
             self.loadIndividualKpiData()
          
         }
+        
+        if(kpitTableIndividualData.count > 0){
+            timelineTable.isHidden = false
+            nodataView.isHidden = true
+        }else{
+            timelineTable.isHidden = true
+            nodataView.isHidden = false
+        }
        
     }
-    
+    func isKeyPresentInUserDefaults(key: String) -> Bool {
+        return UserDefaults.standard.object(forKey: key) != nil
+    }
     
     @IBAction func storeButtonClick(sender: AnyObject) {
         
@@ -310,8 +314,12 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
             let bartwoColour = kpitTableData[indexPath.row]["color2"].stringValue
           let baronevalue_fil = kpitTableData[indexPath.row]["target"].doubleValue
                      let bartwovalue_fil = kpitTableData[indexPath.row]["total"].doubleValue
-
-            cell.achementHeadder.text = "\(kpitTableData[indexPath.row]["LongName"].stringValue) ( \(kpitTableData[indexPath.row]["ShortName"].stringValue) )"
+            if( kpitTableData[indexPath.row]["ShortName"].stringValue == " "){
+                 cell.achementHeadder.text = "\(kpitTableData[indexPath.row]["LongName"].stringValue)"
+            }else{
+                 cell.achementHeadder.text = "\(kpitTableData[indexPath.row]["LongName"].stringValue) ( \(kpitTableData[indexPath.row]["ShortName"].stringValue) )"
+            }
+           
             cell.progressBarone.progressValue = CGFloat(bartwovalue_fil)
             cell.progressbarTwo.progressValue = CGFloat(baronevalue_fil)
             cell.progressBarone.barColor = UIColor().colourHex(hexColour: baroneColour)
@@ -414,6 +422,11 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
             selectedincentiveId = self.incentiveidArry[0]
             incentiveLbl.text = incentiveArry[0]
             loadRecuring()
+        }else{
+           let alert = UIAlertController(title: "", message: "No incentives to display", preferredStyle: UIAlertController.Style.alert)
+           
+        //    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
        
         
@@ -445,6 +458,8 @@ class TimelineViewControler: UIViewController, UITableViewDelegate, UITableViewD
             selectedRecuringId = recuringidArry[0]
          
             self.selectedRecuringType = recuringTypeArry[0]
+        }else{
+            print("show alert")
         }
         loadTimePeriod()
     }

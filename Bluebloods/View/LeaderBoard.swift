@@ -87,6 +87,7 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var leaderBordDataArry:JSON = []
     var storeID = 0
     var userData : Results<UserModel>?
+    var scrolingPosition = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -151,15 +152,28 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         if(userRole == "STORE_MANAGER"){
            
             storeManagerTab.isHidden = false
+            individualButton.isHidden = false
+            storeButton.isHidden = false
             storeButton.setTitle("Store",for: .normal)
             
         }else{
-            
-            storeManagerTab.isHidden = true
+            //ABX
+            storeManagerTab.isHidden = false
+            individualButton.isHidden = true
+            storeButton.isHidden = true
             self.storeUiView.frame.origin.y = 198
             
           //  salesId = ""
         }
+        
+        
+        if(leaderBordTableIndividualData.count > 0){
+                   
+                   noDataView.isHidden = true
+               }else{
+               
+                   noDataView.isHidden = false
+               }
     }
     
     
@@ -187,6 +201,21 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         timePeriodPicker.topOffset = CGPoint(x: 0, y:-(timePeriodPicker.anchorView?.plainView.bounds.height)!)
         timePeriodPicker.show()
     }
+    
+    
+    @IBAction func jumpToMyStore(sender: AnyObject) {
+       
+        if(scrolingPosition > 2){
+            let pathToLastRow = IndexPath.init(row: scrolingPosition, section: 0)
+             leaderbordTable.scrollToRow(at: pathToLastRow, at: .none, animated: true)
+        }
+        
+ 
+     
+    
+    }
+    
+    
     ///////////
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -204,17 +233,17 @@ class LeaderBoard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         cell.positionLbl.text = leaderBordTableJSONData[indexPath.row]["Position"].stringValue
         cell.nameLbl.text = leaderBordTableJSONData[indexPath.row]["User Id"].stringValue
         print()
-        cell.pointsLbl.text = leaderBordTableJSONData[indexPath.row]["Points"].stringValue
+        cell.pointsLbl.text = leaderBordTableJSONData[indexPath.row]["Point"].stringValue
         
         
-       print("salesId-\(salesId)")
-         print("salesId-\(leaderBordTableJSONData[indexPath.row]["User Id"].stringValue)")
-        
-        print("storeID-\(storeID)")
-                print("storeID-\(leaderBordTableJSONData[indexPath.row]["StorePrimaryId"].int)")
+//       print("Pints value -------\(leaderBordTableJSONData[indexPath.row]["Points"])")
+//         print("salesId-\(leaderBordTableJSONData[indexPath.row]["User Id"].stringValue)")
+//
+//        print("storeID-\(storeID)")
+//                print("storeID-\(leaderBordTableJSONData[indexPath.row]["StorePrimaryId"].int)")
         
         if(salesId == leaderBordTableJSONData[indexPath.row]["User Id"].stringValue || storeID == leaderBordTableJSONData[indexPath.row]["StorePrimaryId"].int ){
-            
+            scrolingPosition = indexPath.row
               let colourJson = colourJsonArry.stringValue
             if (colourJson == "" || colourJson == "{}"){
             cell.roundUiView.backgroundColor = UIColor().colourHex(hexColour: "#8f6917")

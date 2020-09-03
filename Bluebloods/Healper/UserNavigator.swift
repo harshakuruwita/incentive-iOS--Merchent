@@ -12,7 +12,7 @@ class UserNavigator: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+print("User")
         // Do any additional setup after loading the view.
     }
     
